@@ -7,79 +7,87 @@ import derelict.sdl2.image;
 import derelict.sdl2.ttf;
 import derelict.util.exception;
 
-bool quit;
+static SDL_Window   *window;
+static SDL_Renderer *renderer;
 
-SDL_Window   *window;
-SDL_Renderer *renderer;
+/// Thrown on successfully exiting the application.
+class SuccessfulExit : Exception
+{
+    this()
+    {
+        super("");
+    }
+}
 
-void main()
+int main()
 {
     initBindings();
     initSDL();
 
     SDL_Event event;
-    while (!quit)
-        while (SDL_PollEvent(&event))
-        {
-            // Exit event
-            if (event.type == SDL_QUIT)
-                quit = true;
 
-            // Debug event logging
-            logSDLEvent(event);
+    try
+    {
+        for (;;)
+        {
+            while (SDL_PollEvent(&event))
+            {
+                // Exit event
+                if (event.type == SDL_QUIT)
+                    throw new SuccessfulExit();
+
+                // Debug event logging
+                logSDLEvent(event);
+            }
 
             // Draw
             SDL_RenderClear(renderer);
             SDL_RenderPresent(renderer);
         }
+    }
+    catch (SuccessfulExit)
+    {
+        return 0;
+    }
+}
+
+void logln(string func = __FUNCTION__, T...)(T args)
+{
+    writeln(func, ": ", args);
 }
 
 void initBindings()
 {
     // Load Derelict modules
-    try
-    {
-        writeln("Binding sdl2...");
-        DerelictSDL2.load();
+    logln("Loading sdl2...");
+    DerelictSDL2.load();
 
-        writeln("Binding sdl2_image...");
-        DerelictSDL2Image.load();
+    /*
+    logln("Loading sdl2_image...");
+    DerelictSDL2Image.load();
 
-        writeln("Binding sdl2_ttf...");
-        DerelictSDL2ttf.load();
+    logln("Loading sdl2_ttf...");
+    DerelictSDL2ttf.load();
+    */
 
-        writeln("Done binding!");
-    }
-    catch (DerelictException e)
-    {
-        writeln(e);
-        readln();
-
-        return;
-    }
+    writeln("Done");
 }
 
 void initSDL()
 {
     // Init SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-        writeSDLError("Error initializing SDL");
+        throw new Exception("Error initializing SDL");
 
     // Create Window
     window = SDL_CreateWindow(toStringz("HackTech"), 100, 100, 640, 480, SDL_WINDOW_SHOWN);
-    if (window == null)
-        writeSDLError("Error Creating SDL Window");
+    if (!window)
+        throw new Exception("Error creating SDL window");
 
     // Create Renderer
-    renderer = SDL_CreateRenderer(window, -1,
-               SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (renderer == null)
-        writeSDLError("Error Creating SDL Renderer");
-}
-
-void writeSDLError(string msg)
-{
-    writeln("ERROR: %s - %s", msg, SDL_GetError());
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!renderer)
+        throw new Exception("Error creating SDL renderer");
 }
 
 void logSDLEvent(SDL_Event event)

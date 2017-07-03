@@ -25,7 +25,8 @@
                     "severity": 5,
                     "message": 6
                 }
-            }
+            },
+            "args": []
         },
         {
             "taskName": "test",
@@ -41,7 +42,8 @@
                     "line": 2,
                     "message": 3
                 }
-            }
+            },
+            "args": []
         },
         {
             "taskName": "run"
