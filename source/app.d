@@ -63,27 +63,23 @@ void initSDL()
 {
     // Init SDL
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0)
-        writeError("Error initializing SDL");
+        writeSDLError("Error initializing SDL");
 
     // Create Window
     window = SDL_CreateWindow(toStringz("HackTech"), 100, 100, 640, 480, SDL_WINDOW_SHOWN);
     if (window == null)
-        writeError("Error Creating SDL Window");
+        writeSDLError("Error Creating SDL Window");
 
     // Create Renderer
     renderer = SDL_CreateRenderer(window, -1,
                SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     if (renderer == null)
-        writeError("Error Creating SDL Renderer");
+         writeSDLError("Error Creating SDL Renderer");
 }
 
-void writeError(string msg)
+void writeSDLError(string msg)
 {
-    const char* error = toStringz(msg);
-
-    printf("ERROR: %s - %s", error, SDL_GetError());
-    readln();
-    SDL_Quit();
+    writeln("ERROR: %s - %s", msg, SDL_GetError());
 }
 
 void logSDLEvent(SDL_Event event)
