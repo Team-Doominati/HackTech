@@ -8,4 +8,8 @@ function math.pulse(max, speed, offset)
     return _G.math.abs(_G.math.sin((os.clock() * speed) + offset) * max)
 end
 
+function math.percent(value, max)
+    return (value / max) * 100
+end
+
 return math

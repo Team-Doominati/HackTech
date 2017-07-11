@@ -1,6 +1,3 @@
--- Libraries
---------------------------------------------------------------------------------
-
 require "imgui"
 
 require "Lib/Class"
@@ -9,25 +6,17 @@ require "Lib/Sandbox"
 flux = require "Lib/Flux"
 lume = require "Lib/Lume"
 
--- Sub-Modules
---------------------------------------------------------------------------------
+dgl =  require "DGL/DGL"
+ht  =  require "HackTech/HackTech"
+gui =  require "GUI/GUI"
 
-dgl = require "DGL/DGL"
-gui = require "GUI/GUI"
-
--- Initialization
---------------------------------------------------------------------------------
+timer = 0
 
 print("HackTech initialized!");
 
--- Seed the RNG
 math.randomseed(os.time())
 
--- Music
 -- dgl.music.playRandomSong("Data/Music")
-
--- Load/Quit
---------------------------------------------------------------------------------
 
 function love.load()
 end
@@ -36,9 +25,6 @@ function love.quit()
     imgui.ShutDown();
 end
 
--- Drawing
---------------------------------------------------------------------------------
-
 function love.draw()
     love.graphics.setBackgroundColor(0, 16, 0, 0)
     
@@ -46,20 +32,17 @@ function love.draw()
     love.graphics.scale(width / dgl.drawing.width, height / dgl.drawing.height)
     
     dgl.console.update()
+    gui.player.update()
     
     imgui.Render();
 end
 
--- Updating
---------------------------------------------------------------------------------
-
 function love.update(dt)
     imgui.NewFrame()
     flux.update(dt)
+    
+    timer = timer + dt
 end
-
--- Input Handling
---------------------------------------------------------------------------------
 
 function love.keypressed(key, isRepeat)
     imgui.KeyPressed(key)
@@ -70,6 +53,10 @@ function love.keypressed(key, isRepeat)
     
     if key == "`" then
         dgl.console.toggle()
+    end
+    
+    if key == "f1" then
+        gui.player.toggle()
     end
     
     if not imgui.GetWantCaptureKeyboard() then
