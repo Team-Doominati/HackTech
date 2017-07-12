@@ -29,7 +29,63 @@ local deck =
         expansion = {}
     },
     
-    software = {}
+    software =
+    {
+        attack = 1,
+        breaker = 0,
+        pierce = 0,
+        slice = 0,
+        scramble = 0,
+        virus = 0,
+        slow = 0,
+        confuse = 0,
+        weaken = 0,
+        overclock = 0,
+        
+        areaAttack = 0,
+        areaBreaker = 0,
+        areaPierce = 0,
+        areaSlice = 0,
+        areaScramble = 0,
+        areaVirus = 0,
+        areaSlow = 0,
+        areaConfuse = 0,
+        
+        shield = 0,
+        armor = 0,
+        plating = 0,
+        medic = 0,
+        maintain = 0,
+        regen = 0,
+        nanogen = 0,
+        reflect = 0,
+        
+        deceive = 1,
+        relocate = 0,
+        camo = 0,
+        sleaze = 0,
+        silence = 0,
+        smoke = 0,
+        
+        analyze = 1,
+        scan = 1,
+        evaluate = 0,
+        decrypt = 0,
+        crack = 0,
+        calculate = 0,
+        bypass = 0,
+        relay = 0,
+        synthesize = 0,
+        
+        boostPassiveAttack = 0,
+        boostPassiveDefense = 0,
+        boostPassiveStealth = 0,
+        boostPassiveAnalysis = 0,
+        boostActiveAttack = 0,
+        boostActiveDefense = 0,
+        boostActiveStealth = 0,
+        boostActiveAnalysis = 0
+    }
 }
 
 function deck.update()

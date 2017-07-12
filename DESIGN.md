@@ -70,7 +70,7 @@ Software
 --------
 
 * Software must be loaded into the deck's RAM first before it can be used
-* Many types of software, such as attacks, shields or crackers, can only have one "primary" copy loaded at a time
+* You cannot have duplicates of software, but you can load any level you wish up to the max software level you currently have of that type
 
 ### Attack
 
