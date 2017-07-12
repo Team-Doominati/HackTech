@@ -55,15 +55,15 @@ function love.keypressed(key, isRepeat)
     end
     
     if key == "`" then
-        dgl.console.toggle()
+        gui.toggle(dgl.console)
     end
     
     if key == "f1" then
-        gui.player.toggle()
+        gui.toggle(gui.player)
     end
     
     if key == "f2" then
-        gui.deck.toggle()
+        gui.toggle(gui.deck)
     end
         
     if not imgui.GetWantCaptureKeyboard() then

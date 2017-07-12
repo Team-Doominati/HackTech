@@ -45,10 +45,6 @@ if not _printRedefined then
     _printRedefined = true
 end
 
-function console.toggle()
-    console.visible = not console.visible
-end
-
 function console.print(text)
     console.log = console.log .. text .. "\n"
 end

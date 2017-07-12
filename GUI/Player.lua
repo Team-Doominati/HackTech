@@ -7,10 +7,6 @@ local player =
     heartRedImage = love.graphics.newImage("Data/GUI/HeartRed.png")
 }
 
-function player.toggle()
-    player.visible = not player.visible
-end
-
 function player.createStats()
     local stats =
     {

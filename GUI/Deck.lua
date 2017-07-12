@@ -6,10 +6,6 @@ local deck =
     CPUImage = love.graphics.newImage("Data/GUI/CPU.png")
 }
 
-function deck.toggle()
-    deck.visible = not deck.visible
-end
-
 function deck.createStats()
     if imgui.CollapsingHeader("Stats", { "DefaultOpen" }) then
         imgui.Image(deck.CPUImage, 32, 32)
