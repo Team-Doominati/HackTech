@@ -38,6 +38,14 @@ local player =
         hardware = 0,
         medical = 0,
         fine = 0
+    },
+    
+    contract =
+    {
+        type = "",
+        company = "",
+        payment = 0,
+        level = 0
     }
 }
 

@@ -17,6 +17,7 @@ print("HackTech initialized!");
 math.randomseed(os.time())
 
 function love.load()
+    ht.data.loadCompanies()
 end
 
 function love.quit()
