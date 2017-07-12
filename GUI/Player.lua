@@ -96,7 +96,28 @@ end
 
 function player.createMoney()
     if imgui.CollapsingHeader("Money", { "DefaultOpen" }) then
-        imgui.Text("Credits: " .. ht.player.credits)
+        imgui.Text("Credits: " .. ht.player.credits .. " C")
+        
+        imgui.Separator()
+        imgui.Indent()
+        
+        if imgui.CollapsingHeader("Payments", { "DefaultOpen" }) then
+            imgui.Text("Living Expenses: " .. ht.player.payment.living .. " C")
+            imgui.Text("Software Licenses: " .. ht.player.payment.software .. " C")
+            imgui.Text("Hardware Maintenance: " .. ht.player.payment.hardware .. " C")
+            imgui.Text("Medical Care: " .. ht.player.payment.medical .. " C")
+            imgui.Text("Fines: " .. ht.player.payment.fine .. " C")
+            
+            imgui.Spacing()
+            
+            if ht.player.getPaymentDays() <= 1 then
+                imgui.Text("Due in: " .. ht.player.getPaymentDays() .. " Day")
+            else
+                imgui.Text("Due in: " .. ht.player.getPaymentDays() .. " Days")
+            end
+        end
+        
+        imgui.Unindent()
     end
 end
 

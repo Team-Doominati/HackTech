@@ -85,6 +85,10 @@ function player.getRepNext()
     return (player.rep.level + 1) * 10
 end
 
+function player.getPaymentDays()
+    return 30 - ht.day % 30
+end
+
 function player.damage(ment, phys)
     ment = ment or 0
     phys = phys or 0
