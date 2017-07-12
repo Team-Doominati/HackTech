@@ -18,19 +18,39 @@ function deck.createStats()
     if imgui.CollapsingHeader("Stats", { "DefaultOpen" }) then
         imgui.Image(deck.images.CPU, 32, 32)
         imgui.SameLine()
-        imgui.Text("Power: " .. ht.deck.stats.power .. " GHz")
+        imgui.Text("Central Processing Unit\nPower: " .. ht.deck.stats.power .. " GHz")
+        imgui.Text("Usage: " .. ht.deck.usage.power .. " GHz")
+        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.power, ht.deck.stats.power))
+        
+        imgui.Separator()
+        
         imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
-        imgui.Text("Threads: " .. ht.deck.stats.threads)
+        imgui.Text("Sub Processing Unit\nThreads: " .. ht.deck.stats.threads)
+        imgui.Text("Usage: " .. ht.deck.usage.threads)
+        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.threads, ht.deck.stats.threads))
+        
+        imgui.Separator()
+        
         imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
-        imgui.Text("RAM: " .. ht.deck.stats.RAM .. " GB")
+        imgui.Text("Random Access Memory\nRAM: " .. ht.deck.stats.RAM .. " GB")
+        imgui.Text("Usage: " .. ht.deck.usage.RAM .. " GB")
+        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.RAM, ht.deck.stats.RAM))
+        
+        imgui.Separator()
+        
         imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
-        imgui.Text("Storage: " .. ht.deck.stats.storage .. " GB")
+        imgui.Text("Hard Drive\nStorage: " .. ht.deck.stats.storage .. " GB")
+        imgui.Text("Usage: " .. ht.deck.usage.storage .. " GB")
+        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.storage, ht.deck.stats.storage))
+        
+        imgui.Separator()
+        
         imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
-        imgui.Text("Bandwidth: " .. ht.deck.stats.bandwidth .. " GB/s")
+        imgui.Text("Network Adapter\nBandwidth: " .. ht.deck.stats.bandwidth .. " GB/s")
     end
 end
 

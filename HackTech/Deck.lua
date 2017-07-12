@@ -9,6 +9,14 @@ local deck =
         bandwidth = 0
     },
     
+    usage =
+    {
+        power = 0,
+        threads = 0,
+        RAM = 0,
+        storage = 0
+    },
+    
     slots =
     {
         CPU = 1,
