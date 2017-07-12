@@ -21,19 +21,42 @@ local deck =
     
     hardware =
     {
-        CPU = {},
-        SPU = {},
-        RAM = {},
-        storage = {},
-        network = {},
-        expansion = {}
+        CPU = { 1 },
+        SPU = { 1 },
+        RAM = { 8 },
+        storage = { 10 },
+        network = { 1 },
+        expansion = { 1 }
     },
     
     software = {}
 }
 
 function deck.update()
-    -- TODO: keep stats up-to-date based on hardware
+    deck.stats.power = 0
+    for i, v in ipairs(deck.hardware.CPU) do
+        deck.stats.power = deck.stats.power + v
+    end
+    
+    deck.stats.threads = 0
+    for i, v in ipairs(deck.hardware.SPU) do
+        deck.stats.threads = deck.stats.threads + v
+    end
+    
+    deck.stats.RAM = 0
+    for i, v in ipairs(deck.hardware.RAM) do
+        deck.stats.RAM = deck.stats.RAM + v
+    end
+    
+    deck.stats.storage = 0
+    for i, v in ipairs(deck.hardware.storage) do
+        deck.stats.storage = deck.stats.storage + v
+    end
+    
+    deck.stats.bandwidth = 0
+    for i, v in ipairs(deck.hardware.network) do
+        deck.stats.bandwidth = deck.stats.bandwidth + v
+    end
 end
 
 return deck
