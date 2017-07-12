@@ -62,18 +62,19 @@ function player.createHealth()
         local mentHealthPlot = {}
         local physHealthPlot = {}
         
-        for i = 1, 20 do
-            local percent = ht.player.mentHealth / 2
-            local offset = timer * (60 - percent) + i
+        for i = 1, 60 do
+            local percent = ht.player.mentHealth / 5
+            local offset = timer * (30 - percent) + i
             
             mentHealthPlot[i] = 0.5 + math.sin(offset) * 0.5
         end
         
-        for i = 1, 20 do
-            local percent = ht.player.physHealth / 2
-            local offset = timer + i -- timer * (60 - percent) + i
+        -- TODO: Make this actually work properly
+        for i = 1, 60 do
+            local percent = ht.player.physHealth / 5
+            local offset = timer * (30 - percent) + i
             
-            physHealthPlot[i] = 1 - math.abs(offset % 4)
+            physHealthPlot[i] = lume.round(math.sin(offset))
         end
         
         imgui.Image(player.heartGreenImage, 32, 32)
