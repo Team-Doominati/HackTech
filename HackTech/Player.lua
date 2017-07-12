@@ -6,7 +6,7 @@ local player =
     {
         level = 0,
         XP = 0,
-        points = 15,
+        points = 0,
         
         attack = 0,
         defense = 0,

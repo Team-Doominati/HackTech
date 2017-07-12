@@ -33,6 +33,7 @@ function love.draw()
     
     dgl.console.update()
     gui.player.update()
+    gui.deck.update()
     
     imgui.Render();
 end
@@ -40,6 +41,8 @@ end
 function love.update(dt)
     imgui.NewFrame()
     flux.update(dt)
+    
+    ht.deck.update()
     
     timer = timer + dt
 end
@@ -59,6 +62,10 @@ function love.keypressed(key, isRepeat)
         gui.player.toggle()
     end
     
+    if key == "f2" then
+        gui.deck.toggle()
+    end
+        
     if not imgui.GetWantCaptureKeyboard() then
     end
 end
