@@ -22,8 +22,11 @@ local system =
     }
 }
 
-function system.create(level)
+function system.create(level, maxJ, maxDS, maxIOP)
     level = level or 1
+    maxJ = maxJ or 10
+    maxDS = maxDS or 2
+    maxIOP = maxIOP or 2
     
     local x, y = dgl.drawing.width / 2, dgl.drawing.height / 2
     
@@ -106,18 +109,18 @@ function system.create(level)
     end
     
     local function placeJ()
-        local current, max = 0, 10
+        local current = 0
         
-        while current < max do
+        while current < maxJ do
             createNode("J")
             current = current + 1
         end
     end
     
     local function placeDS()
-        local current, max = 0, 2
+        local current = 0
         
-        while current < max do
+        while current < maxDS do
             local node = math.random(2, #system.nodes - 1)
             
             if system.nodes[node].type == "J" then
@@ -129,9 +132,9 @@ function system.create(level)
     end
     
     local function placeIOP()
-        local current, max = 0, 2
+        local current = 0
         
-        while current < max do
+        while current < maxIOP do
             local node = math.random(2, #system.nodes - 1)
             
             if system.nodes[node].type == "J" then
