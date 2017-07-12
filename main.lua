@@ -11,6 +11,13 @@ ht  =  require "HackTech/HackTech"
 gui =  require "GUI/GUI"
 
 timer = 0
+camera =
+{
+    x = 0,
+    y = 0,
+    sx = 1,
+    sy = 1
+}
 
 print("HackTech initialized!");
 
@@ -27,15 +34,21 @@ function love.quit()
 end
 
 function love.draw()
-    love.graphics.setBackgroundColor(0, 16, 0, 0)
+    love.graphics.push()
     
     local width, height = love.graphics.getDimensions()
     love.graphics.scale(width / dgl.drawing.width, height / dgl.drawing.height)
+    love.graphics.scale(camera.sx, camera.sy)
+    love.graphics.translate(camera.x, camera.y)
     
     dgl.console.update()
     gui.player.update()
     gui.deck.update()
     gui.mission.update()
+    
+    ht.system.draw()
+    
+    love.graphics.pop()
     
     imgui.Render();
 end
@@ -45,6 +58,7 @@ function love.update(dt)
     flux.update(dt)
     
     ht.deck.update()
+    ht.system.update()
     
     timer = timer + dt
 end
@@ -76,6 +90,11 @@ function love.keypressed(key, isRepeat)
         gui.toggle(gui.mission)
     end
     
+    if key == "space" then
+        ht.system.create()
+        ht.system.connected = true
+    end
+    
     if not imgui.GetWantCaptureKeyboard() then
     end
 end
@@ -101,10 +120,14 @@ function love.mousereleased(x, y, button, isTouch)
     end
 end
 
-function love.mousemoved(x, y)
+function love.mousemoved(x, y, dx, dy, isTouch)
     imgui.MouseMoved(x, y)
     
     if not imgui.GetWantCaptureMouse() then
+        if love.mouse.isDown(2) then
+            camera.x = camera.x + dx
+            camera.y = camera.y + dy
+        end
     end
 end
 
@@ -112,6 +135,21 @@ function love.wheelmoved(x, y)
     imgui.WheelMoved(y)
     
     if not imgui.GetWantCaptureMouse() then
+        camera.sx = camera.sx + (y * 0.25)
+        camera.sy = camera.sy + (y * 0.25)
+        
+        if camera.sx <= 0.5 then
+            camera.sx = 0.5
+        end
+        if camera.sx > 2 then
+            camera.sx = 2
+        end
+        if camera.sy <= 0.5 then
+            camera.sy = 0.5
+        end
+        if camera.sy > 2 then
+            camera.sy = 2
+        end
     end
 end
 
