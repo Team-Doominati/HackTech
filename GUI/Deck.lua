@@ -102,7 +102,8 @@ function deck.createSoftware()
         "Area Attack",
         "Defense",
         "Stealth",
-        "Analysis"
+        "Analysis",
+        "Boost"
     }
     
     local software =
@@ -161,9 +162,20 @@ function deck.createSoftware()
             { "Bypass", "bypass" },
             { "Relay", "relay" },
             { "Synthesize", "synthesize" }
+        },
+        
+        {
+            { "Boost Attack (Passive)", "boostPassiveAttack" },
+            { "Boost Defense (Passive)", "boostPassiveDefense" },
+            { "Boost Stealth (Passive)", "boostPassiveStealth" },
+            { "Boost Analysis (Passive)", "boostPassiveAnalysis" },
+            { "Boost Attack (Active)", "boostActiveAttack" },
+            { "Boost Defense (Active)", "boostActiveDefense" },
+            { "Boost Stealth (Active)", "boostActiveStealth" },
+            { "Boost Analysis (Active)", "boostActiveAnalysis" }
         }
     }
-        
+    
     if imgui.CollapsingHeader("Software", { "DefaultOpen" }) then
         imgui.Indent()
         
