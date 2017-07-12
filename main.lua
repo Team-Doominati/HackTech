@@ -139,14 +139,14 @@ function love.wheelmoved(x, y)
         camera.sx = camera.sx + (y * 0.25)
         camera.sy = camera.sy + (y * 0.25)
         
-        if camera.sx <= 0.5 then
-            camera.sx = 0.5
+        if camera.sx <= 0.25 then
+            camera.sx = 0.25
         end
         if camera.sx > 2 then
             camera.sx = 2
         end
-        if camera.sy <= 0.5 then
-            camera.sy = 0.5
+        if camera.sy <= 0.25 then
+            camera.sy = 0.25
         end
         if camera.sy > 2 then
             camera.sy = 2

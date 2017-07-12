@@ -30,25 +30,47 @@ function system.create(level)
     local function move()
         local newX, newY = 0, 0
         local success = false
+        local mult = 1
         
         while not success do
-            local dir = math.random(1, 4)
+            local dir = math.random(1, 4) -- Not using the diagonals for now
+            
+            print(mult)
             
             success = true
             
             if dir == 1 then
-                newY = y + system.nodeOffset
+                newY = y + system.nodeOffset * mult
             elseif dir == 2 then
-                newY = y - system.nodeOffset
+                newY = y - system.nodeOffset * mult
             elseif dir == 3 then
-                newX = x - system.nodeOffset
+                newX = x - system.nodeOffset * mult
             elseif dir == 4 then
-                newX = x + system.nodeOffset
+                newX = x + system.nodeOffset * mult
+            elseif dir == 5 then
+                newX = x - system.nodeOffset * mult
+                newY = y + system.nodeOffset * mult
+            elseif dir == 6 then
+                newX = x + system.nodeOffset * mult
+                newY = y + system.nodeOffset * mult
+            elseif dir == 7 then
+                newX = x - system.nodeOffset * mult
+                newY = y - system.nodeOffset * mult
+            elseif dir == 8 then
+                newX = x + system.nodeOffset * mult
+                newY = y - system.nodeOffset * mult
             end
             
             for i, node in pairs(system.nodes) do
-                if node.x == newX and node.y == newY then
+                if newX >= node.x - system.nodeOffset and
+                   newX <= node.x + system.nodeOffset and
+                   newY >= node.y - system.nodeOffset and
+                   newY <= node.y + system.nodeOffset then
                     success = false
+                    
+                    if math.random(1, 10) == 1 then
+                        mult = mult + 1
+                    end
                 end
             end
         end
@@ -66,6 +88,8 @@ function system.create(level)
         node.security = "white"
         node.ICE = {}
         node.cleared = false
+        node.activated = false
+        node.objective = false
         node.prev = nil
         node.next = nil
         
@@ -291,6 +315,12 @@ end
 
 function system.clear()
     system.nodes = {}
+    system.currentNode = 1
+    system.cleared = 0
+    system.turn = 1
+    system.target = nil
+    
+    system.setAlert("none")
 end
 
 function system.setAlert(level)
