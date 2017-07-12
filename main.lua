@@ -90,12 +90,13 @@ function love.keypressed(key, isRepeat)
         gui.toggle(gui.mission)
     end
     
-    if key == "space" then
+    if key == "f6" then
         ht.system.create()
         ht.system.connected = true
     end
     
     if not imgui.GetWantCaptureKeyboard() then
+        ht.system.keypressed(key)
     end
 end
 

@@ -8,10 +8,18 @@ local system =
     
     alert = "none",
     
-    currentNode = nil,
+    currentNode = 1,
+    cleared = 0,
+    turn = 1,
+    
     target = nil,
     
-    nodeOffset = 128
+    nodeOffset = 128,
+    
+    sounds =
+    {
+        move = love.audio.newSource("Data/Sound/Move.wav", "static")
+    }
 }
 
 function system.create(level)
@@ -57,9 +65,13 @@ function system.create(level)
         node.type = type
         node.security = "white"
         node.ICE = {}
+        node.cleared = false
+        node.prev = nil
+        node.next = nil
         
         if #system.nodes > 0 then
-            node.last = system.nodes[#system.nodes]
+            node.prev = system.nodes[#system.nodes]
+            system.nodes[#system.nodes].next = node
         end
         
         move()
@@ -137,15 +149,44 @@ function system.create(level)
     print("Generated level " .. level .. " system with " .. #system.nodes .. " nodes")
 end
 
+function system.move(type)
+    if type == "forward" and system.currentNode < #system.nodes - 1 and system.getCurrentNode().cleared then
+        system.currentNode = system.currentNode + 1
+        
+        if system.currentNode > system.cleared then
+            system.cleared = system.currentNode
+        end
+        
+        system.sounds.move:play()
+        system.turn = system.turn + 1
+    elseif type == "back" and system.currentNode > 1 then
+        system.currentNode = system.currentNode - 1
+        
+        system.sounds.move:play()
+        system.turn = system.turn + 1
+    end
+end
+
+function system.getCurrentNode()
+    return system.nodes[system.currentNode]
+end
+
 function system.draw()
     if not system.connected then return end
     
     love.graphics.setBackgroundColor(0, 16, 0)
     
     for i, node in pairs(system.nodes) do
-        if node.last ~= nil then
-            love.graphics.setColor(unpack(dgl.color.white))
-            love.graphics.line(node.x, node.y, node.last.x, node.last.y)
+        if node.next ~= nil then
+            if i == system.currentNode and system.getCurrentNode().cleared then
+                love.graphics.setColor(unpack(dgl.color.yellow))
+            elseif i <= system.cleared then
+                love.graphics.setColor(unpack(dgl.color.green))
+            else
+                love.graphics.setColor(unpack(dgl.color.white))
+            end
+            
+            love.graphics.line(node.x, node.y, node.next.x, node.next.y)
         end
     end
     
@@ -229,6 +270,23 @@ end
 
 function system.update()
     if not system.connected then return end
+    
+    for i, node in pairs(system.nodes) do
+        if #node.ICE == 0 then -- Temporary check, later it should iterate ICE and check if they are clear as well
+            node.cleared = true
+        end
+    end
+end
+
+function system.keypressed(key)
+    if not system.connected then return end
+    
+    if key == "space" then
+        system.move("forward")
+    end
+    if key == "c" then
+        system.move("back")
+    end
 end
 
 function system.clear()
