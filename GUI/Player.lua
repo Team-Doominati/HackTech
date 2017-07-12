@@ -2,9 +2,12 @@ local player =
 {
     visible = true,
     
-    placeImage = love.graphics.newImage("Data/GUI/Placeholder.png"),
-    heartGreenImage = love.graphics.newImage("Data/GUI/HeartGreen.png"),
-    heartRedImage = love.graphics.newImage("Data/GUI/HeartRed.png")
+    images =
+    {
+        place = love.graphics.newImage("Data/GUI/Placeholder.png"),
+        heartGreen = love.graphics.newImage("Data/GUI/HeartGreen.png"),
+        heartRed = love.graphics.newImage("Data/GUI/HeartRed.png")
+    }
 }
 
 function player.createStats()
@@ -29,7 +32,7 @@ function player.createStats()
         for i, v in pairs(stats) do
             local type = string.lower(v)
             
-            imgui.Image(player.placeImage, 32, 32)
+            imgui.Image(player.images.place, 32, 32)
             imgui.SameLine()
             imgui.AlignFirstTextHeightToWidgets()
             imgui.Text(v .. ": " .. ht.player.stats[type])
@@ -73,12 +76,12 @@ function player.createHealth()
             physHealthPlot[i] = lume.round(math.sin(offset))
         end
         
-        imgui.Image(player.heartGreenImage, 32, 32)
+        imgui.Image(player.images.heartGreen, 32, 32)
         imgui.SameLine()
         imgui.Text("Mental Health: " .. ht.player.health.mental .. "%%")
         imgui.PlotLines("", mentHealthPlot, #mentHealthPlot, 0, "", 0, 1, 340, 32)
         
-        imgui.Image(player.heartRedImage, 32, 32)
+        imgui.Image(player.images.heartRed, 32, 32)
         imgui.SameLine()
         imgui.Text("Physical Health: " .. ht.player.health.physical .. "%%")
         imgui.PlotLines("", physHealthPlot, #physHealthPlot, 0, "", 0, 1, 340, 32)

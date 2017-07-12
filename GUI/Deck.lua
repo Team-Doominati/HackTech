@@ -2,25 +2,28 @@ local deck =
 {
     visible = true,
     
-    placeImage = love.graphics.newImage("Data/GUI/Placeholder.png"),
-    CPUImage = love.graphics.newImage("Data/GUI/CPU.png")
+    images =
+    {
+        place = love.graphics.newImage("Data/GUI/Placeholder.png"),
+        CPU = love.graphics.newImage("Data/GUI/CPU.png")
+    }
 }
 
 function deck.createStats()
     if imgui.CollapsingHeader("Stats", { "DefaultOpen" }) then
-        imgui.Image(deck.CPUImage, 32, 32)
+        imgui.Image(deck.images.CPU, 32, 32)
         imgui.SameLine()
         imgui.Text("Power: " .. ht.deck.stats.power .. " GHz")
-        imgui.Image(deck.placeImage, 32, 32)
+        imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
         imgui.Text("Threads: " .. ht.deck.stats.threads)
-        imgui.Image(deck.placeImage, 32, 32)
+        imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
         imgui.Text("RAM: " .. ht.deck.stats.RAM .. " GB")
-        imgui.Image(deck.placeImage, 32, 32)
+        imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
         imgui.Text("Storage: " .. ht.deck.stats.storage .. " GB")
-        imgui.Image(deck.placeImage, 32, 32)
+        imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
         imgui.Text("Bandwidth: " .. ht.deck.stats.bandwidth .. " GB/s")
     end
