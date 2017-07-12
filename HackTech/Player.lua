@@ -33,7 +33,7 @@ local player =
     
     payment =
     {
-        living = 0,
+        living = 500,
         software = 0,
         hardware = 0,
         medical = 0,
@@ -60,6 +60,10 @@ function player.addRep(amount)
     end
 end
 
+function player.addPayment(type, amount)
+    player.payment[type] = player.payment[type] + amount
+end
+
 function player.upgradeRep()
     if player.rep.XP >= player.getRepNext() then
         player.rep.level = player.rep.level + 1
@@ -83,6 +87,16 @@ end
 
 function player.getRepNext()
     return (player.rep.level + 1) * 10
+end
+
+function player.getTotalPayment()
+    local total = 0
+    
+    for key, amount in pairs(player.payment) do
+        total = total + amount
+    end
+    
+    return total
 end
 
 function player.getPaymentDays()

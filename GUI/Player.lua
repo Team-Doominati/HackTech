@@ -110,6 +110,10 @@ function player.createMoney()
             
             imgui.Spacing()
             
+            imgui.Text("Total: " .. ht.player.getTotalPayment() .. " C")
+            
+            imgui.Spacing()
+            
             if ht.player.getPaymentDays() <= 1 then
                 imgui.Text("Due in: " .. ht.player.getPaymentDays() .. " Day")
             else
