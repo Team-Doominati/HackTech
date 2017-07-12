@@ -81,7 +81,7 @@ function deck.update()
     
     if not deck.visible then return end
     
-    imgui.SetNextWindowPos(480, 100)
+    imgui.SetNextWindowPos(480, 100, { "FirstUseEver" })
     imgui.SetNextWindowSize(400, 360)
     status, deck.visible = imgui.Begin("Deck", true, { "NoResize" })
     

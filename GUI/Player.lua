@@ -105,7 +105,7 @@ function player.update()
     
     if not player.visible then return end
     
-    imgui.SetNextWindowPos(100, 100)
+    imgui.SetNextWindowPos(100, 100, { "FirstUseEver" })
     imgui.SetNextWindowSize(360, 360)
     status, player.visible = imgui.Begin(ht.player.name, true, { "NoResize" })
     
