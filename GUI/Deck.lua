@@ -5,6 +5,7 @@ local deck =
     images =
     {
         place = love.graphics.newImage("Data/GUI/Placeholder.png"),
+        
         CPU = love.graphics.newImage("Data/GUI/CPU.png"),
         SPU = love.graphics.newImage("Data/GUI/Placeholder.png"),
         RAM = love.graphics.newImage("Data/GUI/Placeholder.png"),
@@ -69,8 +70,11 @@ function deck.createHardware()
         
         for i, type in pairs(hardware) do
             if imgui.CollapsingHeader(type[1] .. " (" .. #ht.deck.hardware[type[2]] .. "/" .. ht.deck.slots[type[2]] .. ")", { "DefaultOpen" }) then
+                imgui.NewLine()
+                
                 for j, slot in ipairs(ht.deck.hardware[type[2]]) do
                     imgui.Image(deck.images[type[2]], 32, 32)
+                    
                     if imgui.IsItemHovered() then
                         imgui.SetTooltip(slot .. type[3])
                     end
@@ -81,10 +85,10 @@ function deck.createHardware()
                         imgui.SameLine()
                     end
                 end
+                
+                imgui.NewLine()
+                imgui.NewLine()
             end
-            
-            imgui.NewLine()
-            imgui.NewLine()
         end
         
         imgui.Unindent()
@@ -92,7 +96,107 @@ function deck.createHardware()
 end
 
 function deck.createSoftware()
-    if imgui.CollapsingHeader("Software", { "Software" }) then
+    local categories =
+    {
+        "Attack",
+        "Area Attack",
+        "Defense",
+        "Stealth",
+        "Analysis"
+    }
+    
+    local software =
+    {
+        {
+            { "Attack", "attack" },
+            { "Break", "breaker" },
+            { "Pierce", "pierce" },
+            { "Slice", "slice" },
+            { "Scramble", "scramble" },
+            { "Virus", "virus" },
+            { "Slow", "slow" },
+            { "Confuse", "confuse" },
+            { "Weaken", "weaken" },
+            { "Overclock", "overclock" }
+        },
+        
+        {
+            { "Area Attack", "areaAttack" },
+            { "Area Break", "areaBreaker" },
+            { "Area Pierce", "areaPierce" },
+            { "Area Slice", "areaSlice" },
+            { "Area Scramble", "areaScramble" },
+            { "Area Virus", "areaVirus" },
+            { "Area Slow", "areaSlow" },
+            { "Area Confuse", "areaConfuse" }
+        },
+        
+        {
+            { "Shield", "shield" },
+            { "Armor", "armor" },
+            { "Plating", "plating" },
+            { "Medic", "medic" },
+            { "Maintain", "maintain" },
+            { "Regen", "regen" },
+            { "Nanogen", "nanogen" },
+            { "reflect", "reflect" }
+        },
+        
+        {
+            { "Deceive", "deceive" },
+            { "Relocate", "relocate" },
+            { "Camo", "camo" },
+            { "Sleaze", "sleaze" },
+            { "Silence", "silence" },
+            { "Smoke", "smoke" }
+        },
+        
+        {
+            { "Analyze", "analyze" },
+            { "Scan", "scan" },
+            { "Evaluate", "evaluate" },
+            { "Decrypt", "decrypt" },
+            { "Crack", "crack" },
+            { "Calculate", "calculate" },
+            { "Bypass", "bypass" },
+            { "Relay", "relay" },
+            { "Synthesize", "synthesize" }
+        }
+    }
+        
+    if imgui.CollapsingHeader("Software", { "DefaultOpen" }) then
+        imgui.Indent()
+        
+        for i, category in ipairs(categories) do
+            if imgui.CollapsingHeader(category, { "DefaultOpen" }) then
+                imgui.Indent()
+                imgui.NewLine()
+                
+                for j, type in ipairs(software[i]) do
+                    imgui.Image(deck.images.place, 32, 32)
+                    
+                    if imgui.IsItemHovered() then
+                        if ht.deck.software[type[2]] == 0 then
+                            imgui.SetTooltip(type[1])
+                        else
+                            imgui.SetTooltip(type[1] .. " " .. ht.deck.software[type[2]])
+                        end
+                    end
+                    
+                    if j % 8 == 0 and j < #software[i] then
+                        imgui.NewLine()
+                    else
+                        imgui.SameLine()
+                    end
+                end
+                
+                imgui.NewLine()
+                imgui.NewLine()
+                imgui.Unindent()
+            end
+        end
+        
+        imgui.Unindent()
     end
 end
 
