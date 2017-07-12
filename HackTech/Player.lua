@@ -42,10 +42,12 @@ local player =
     
     mission =
     {
+        accepted = false,
         type = "",
+        description = "",
         company = "",
-        payment = 0,
-        level = 0
+        level = 0,
+        payment = 0
     }
 }
 
@@ -87,6 +89,24 @@ end
 
 function player.canUpgradeStat(type)
     return player.stats.points >= player.stats[type] + 1
+end
+
+function player.acceptMission(mission)
+    player.mission.accepted = true
+    player.mission.type = mission.type
+    player.mission.description = mission.description
+    player.mission.company = mission.company
+    player.mission.level = mission.level
+    player.mission.payment = mission.payment
+end
+
+function player.clearMission()
+    player.mission.accepted = false
+    player.mission.type = ""
+    player.mission.description = ""
+    player.mission.company = ""
+    player.mission.level = 0
+    player.mission.payment = 0
 end
 
 function player.getLevelNext()

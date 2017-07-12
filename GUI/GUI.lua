@@ -1,7 +1,8 @@
 local gui = {}
 
-gui.player = require "GUI/Player"
-gui.deck =   require "GUI/Deck"
+gui.player =  require "GUI/Player"
+gui.deck =    require "GUI/Deck"
+gui.mission = require "GUI/Mission"
 
 gui.sounds =
 {

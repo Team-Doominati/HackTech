@@ -18,6 +18,8 @@ math.randomseed(os.time())
 
 function love.load()
     ht.data.loadCompanies()
+    
+    ht.generateMissions(1)
 end
 
 function love.quit()
@@ -33,6 +35,7 @@ function love.draw()
     dgl.console.update()
     gui.player.update()
     gui.deck.update()
+    gui.mission.update()
     
     imgui.Render();
 end
@@ -67,6 +70,10 @@ function love.keypressed(key, isRepeat)
     
     if key == "f2" then
         gui.toggle(gui.deck)
+    end
+    
+    if key == "f3" then
+        gui.toggle(gui.mission)
     end
     
     if not imgui.GetWantCaptureKeyboard() then
