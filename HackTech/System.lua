@@ -106,7 +106,7 @@ function system.create(level)
     end
     
     local function placeJ()
-        local current, max = 0, 1000
+        local current, max = 0, 10
         
         while current < max do
             createNode("J")
