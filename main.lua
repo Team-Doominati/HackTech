@@ -16,8 +16,6 @@ print("HackTech initialized!");
 
 math.randomseed(os.time())
 
--- dgl.music.playRandomSong("Data/Music")
-
 function love.load()
 end
 
@@ -58,6 +56,10 @@ function love.keypressed(key, isRepeat)
         gui.toggle(dgl.console)
     end
     
+    if key == "\\" then
+        dgl.music.playRandomSong("Data/Music")
+    end
+    
     if key == "f1" then
         gui.toggle(gui.player)
     end
@@ -65,7 +67,7 @@ function love.keypressed(key, isRepeat)
     if key == "f2" then
         gui.toggle(gui.deck)
     end
-        
+    
     if not imgui.GetWantCaptureKeyboard() then
     end
 end
