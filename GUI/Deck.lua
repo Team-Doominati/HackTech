@@ -58,11 +58,11 @@ end
 function deck.createHardware()
     local hardware =
     {
-        { "CPU",       "CPU",       " GHz"    },
-        { "SPU",       "SPU",       " Thread" },
-        { "RAM",       "RAM",       " GB"     },
-        { "Storage",   "storage",   " GB"     },
-        { "Network",   "network",   " GB/s"   }
+        { "CPU",       "CPU",       " GHz"     },
+        { "SPU",       "SPU",       " Threads" },
+        { "RAM",       "RAM",       " GB"      },
+        { "Storage",   "storage",   " GB"      },
+        { "Network",   "network",   " GB/s"    }
     }
     
     if imgui.CollapsingHeader("Hardware", { "DefaultOpen" }) then

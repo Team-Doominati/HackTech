@@ -30,7 +30,7 @@ local deck =
     hardware =
     {
         CPU = { 1 },
-        SPU = { 1 },
+        SPU = { 4 },
         RAM = { 8 },
         storage = { 10 },
         network = { 1 },
