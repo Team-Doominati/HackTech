@@ -26,8 +26,7 @@ function mission.createMissions()
     end
     
     if selected > 0 then
-        ht.player.acceptMission(ht.missions[selected])
-        table.remove(ht.missions, selected)
+        ht.player.acceptMission(selected)
         mission.sounds.accept:play()
     end
 end

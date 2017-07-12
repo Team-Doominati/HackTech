@@ -93,11 +93,13 @@ end
 
 function player.acceptMission(mission)
     player.mission.accepted = true
-    player.mission.type = mission.type
-    player.mission.description = mission.description
-    player.mission.company = mission.company
-    player.mission.level = mission.level
-    player.mission.payment = mission.payment
+    player.mission.type = ht.missions[mission].type
+    player.mission.description = ht.missions[mission].description
+    player.mission.company = ht.missions[mission].company
+    player.mission.level = ht.missions[mission].level
+    player.mission.payment = ht.missions[mission].payment
+    
+    table.remove(ht.missions, mission)
 end
 
 function player.clearMission()
