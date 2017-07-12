@@ -40,7 +40,7 @@ local player =
         fine = 0
     },
     
-    contract =
+    mission =
     {
         type = "",
         company = "",
