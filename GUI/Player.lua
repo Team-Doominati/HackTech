@@ -7,6 +7,11 @@ local player =
         place = love.graphics.newImage("Data/GUI/Placeholder.png"),
         heartGreen = love.graphics.newImage("Data/GUI/HeartGreen.png"),
         heartRed = love.graphics.newImage("Data/GUI/HeartRed.png")
+    },
+    
+    sounds =
+    {
+        upgrade = love.audio.newSource("Data/Sound/UpgradeStat.wav", "static")
     }
 }
 
@@ -42,6 +47,7 @@ function player.createStats()
                 
                 if imgui.Button("Upgrade " .. v) then
                     ht.player.upgradeStat(type)
+                    player.sounds.upgrade:play()
                 end
             end
         end
