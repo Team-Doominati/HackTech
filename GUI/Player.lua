@@ -24,10 +24,10 @@ function player.createStats()
     }
     
     if imgui.CollapsingHeader("Stats", { "DefaultOpen" }) then
-        imgui.Text("Level: " .. ht.player.level)
-        imgui.Text("XP: " .. ht.player.XP .. " / " .. ht.player.getLevelNext())
-        imgui.ProgressBar(dgl.math.percent(ht.player.XP, ht.player.getLevelNext()))
-        imgui.Text("Stat Points: " .. ht.player.points)
+        imgui.Text("Level: " .. ht.player.stats.level)
+        imgui.Text("XP: " .. ht.player.stats.XP .. " / " .. ht.player.getLevelNext())
+        imgui.ProgressBar(dgl.math.percent(ht.player.stats.XP, ht.player.getLevelNext()))
+        imgui.Text("Stat Points: " .. ht.player.stats.points)
         imgui.Separator()
         
         for i, v in pairs(stats) do
@@ -36,7 +36,7 @@ function player.createStats()
             imgui.Image(player.placeImage, 32, 32)
             imgui.SameLine()
             imgui.AlignFirstTextHeightToWidgets()
-            imgui.Text(v .. ": " .. ht.player[type])
+            imgui.Text(v .. ": " .. ht.player.stats[type])
             
             if ht.player.canUpgradeStat(type) then
                 imgui.SameLine()
@@ -51,9 +51,9 @@ end
 
 function player.createRep()
     if imgui.CollapsingHeader("Reputation", { "DefaultOpen" }) then
-        imgui.Text("Level: " .. ht.player.repLevel)
-        imgui.Text("XP: " .. ht.player.rep .. " / " .. ht.player.getRepNext())
-        imgui.ProgressBar(dgl.math.percent(ht.player.rep, ht.player.getRepNext()))
+        imgui.Text("Level: " .. ht.player.rep.level)
+        imgui.Text("XP: " .. ht.player.rep.XP .. " / " .. ht.player.getRepNext())
+        imgui.ProgressBar(dgl.math.percent(ht.player.rep.XP, ht.player.getRepNext()))
     end
 end
 
@@ -63,7 +63,7 @@ function player.createHealth()
         local physHealthPlot = {}
         
         for i = 1, 60 do
-            local percent = ht.player.mentHealth / 5
+            local percent = ht.player.health.mental / 5
             local offset = timer * (30 - percent) + i
             
             mentHealthPlot[i] = 0.5 + math.sin(offset) * 0.5
@@ -71,7 +71,7 @@ function player.createHealth()
         
         -- TODO: Make this actually work properly
         for i = 1, 60 do
-            local percent = ht.player.physHealth / 5
+            local percent = ht.player.health.physical / 5
             local offset = timer * (30 - percent) + i
             
             physHealthPlot[i] = lume.round(math.sin(offset))
@@ -79,12 +79,12 @@ function player.createHealth()
         
         imgui.Image(player.heartGreenImage, 32, 32)
         imgui.SameLine()
-        imgui.Text("Mental Health: " .. ht.player.mentHealth .. "%%")
+        imgui.Text("Mental Health: " .. ht.player.health.mental .. "%%")
         imgui.PlotLines("", mentHealthPlot, #mentHealthPlot, 0, "", 0, 1, 340, 32)
         
         imgui.Image(player.heartRedImage, 32, 32)
         imgui.SameLine()
-        imgui.Text("Physical Health: " .. ht.player.physHealth .. "%%")
+        imgui.Text("Physical Health: " .. ht.player.health.physical .. "%%")
         imgui.PlotLines("", physHealthPlot, #physHealthPlot, 0, "", 0, 1, 340, 32)
     end
 end
@@ -100,7 +100,7 @@ function player.update()
     
     if not player.visible then return end
     
-    imgui.SetNextWindowPos(100, 100, "FirstUseEver")
+    imgui.SetNextWindowPos(100, 100)
     imgui.SetNextWindowSize(360, 360)
     status, player.visible = imgui.Begin(ht.player.name, true, { "NoResize" })
     

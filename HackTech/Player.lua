@@ -2,23 +2,32 @@ local player =
 {
     name = "Hacker",
     
-    level = 0,
-    XP = 0,
-    points = 0,
+    stats =
+    {
+        level = 0,
+        XP = 0,
+        points = 15,
+        
+        attack = 0,
+        defense = 0,
+        stealth = 0,
+        analysis = 0,
+        programming = 0,
+        engineering = 0,
+        negotiation = 0
+    },
+
+    rep =
+    {
+        level = 0,
+        XP = 0,
+    },
     
-    rep = 0,
-    repLevel = 0,
-    
-    attack = 0,
-    defense = 0,
-    stealth = 0,
-    analysis = 0,
-    programming = 0,
-    engineering = 0,
-    negotiation = 0,
-    
-    mentHealth = 100,
-    physHealth = 100,
+    health =
+    {
+        mental = 100,
+        physical = 100
+    },
     
     credits = 0,
     
@@ -33,57 +42,57 @@ local player =
 }
 
 function player.addXP(amount)
-    player.XP = player.XP + amount
+    player.stats.XP = player.stats.XP + amount
     
-    if player.XP >= player.getLevelNext() then
-        player.level = player.level + 1
-        player.points = player.points + 1
+    if player.stats.XP >= player.getLevelNext() then
+        player.stats.level = player.stats.level + 1
+        player.stats.points = player.stats.points + 1
     end
 end
 
 function player.addRep(amount)
-    if player.rep < player.getRepNext() then
-        player.rep = player.rep + amount
+    if player.rep.XP < player.getRepNext() then
+        player.rep.XP = player.rep.XP + amount
         
-        if player.rep >= player.getRepNext() then
-            player.rep = player.getRepNext()
+        if player.rep.XP >= player.getRepNext() then
+            player.rep.XP = player.getRepNext()
         end
     end
 end
 
 function player.upgradeRep()
-    if player.rep >= player.getRepNext() then
-        player.repLevel = player.repLevel + 1
+    if player.rep.XP >= player.getRepNext() then
+        player.rep.level = player.rep.level + 1
     end
 end
 
 function player.upgradeStat(type)
     if player.canUpgradeStat(type) then
-        player.points = player.points - (player[type] + 1)
-        player[type] = player[type] + 1
+        player.stats.points = player.stats.points - (player.stats[type] + 1)
+        player.stats[type] = player.stats[type] + 1
     end
 end
 
 function player.canUpgradeStat(type)
-    return player.points >= player[type] + 1
+    return player.stats.points >= player.stats[type] + 1
 end
 
 function player.getLevelNext()
-    return (player.level + 1) * 100
+    return (player.stats.level + 1) * 100
 end
 
 function player.getRepNext()
-    return (player.repLevel + 1) * 10
+    return (player.rep.level + 1) * 10
 end
 
 function player.damage(ment, phys)
     ment = ment or 0
     phys = phys or 0
     
-    player.mentHealth = player.mentHealth - ment
-    player.physHealth = player.physHealth - phys
+    player.health.mental = player.health.mental - ment
+    player.health.physical = player.health.physical - phys
     
-    if player.mentHealth <= 0 or player.physHealth <= 0 then
+    if player.health.mental <= 0 or player.health.physical <= 0 then
         -- TODO: Game over
     end
 end
