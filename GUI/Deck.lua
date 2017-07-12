@@ -140,7 +140,7 @@ function deck.createSoftware()
             { "Maintain", "maintain" },
             { "Regen", "regen" },
             { "Nanogen", "nanogen" },
-            { "reflect", "reflect" }
+            { "Reflect", "reflect" }
         },
         
         {
