@@ -34,7 +34,7 @@ function deck.createStats()
         
         imgui.Image(deck.images.place, 32, 32)
         imgui.SameLine()
-        imgui.Text("Random Access Memory\nRAM: " .. ht.deck.stats.RAM .. " GB")
+        imgui.Text("Random Access Memory\nSize: " .. ht.deck.stats.RAM .. " GB")
         imgui.Text("Usage: " .. ht.deck.usage.RAM .. " GB")
         imgui.ProgressBar(dgl.math.percent(ht.deck.usage.RAM, ht.deck.stats.RAM))
         
