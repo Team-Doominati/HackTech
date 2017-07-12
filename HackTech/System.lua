@@ -35,8 +35,6 @@ function system.create(level)
         while not success do
             local dir = math.random(1, 4) -- Not using the diagonals for now
             
-            print(mult)
-            
             success = true
             
             if dir == 1 then
@@ -68,7 +66,7 @@ function system.create(level)
                    newY <= node.y + system.nodeOffset then
                     success = false
                     
-                    if math.random(1, 10) == 1 then
+                    if math.random(1, 100) == 1 then
                         mult = mult + 1
                     end
                 end
@@ -108,7 +106,7 @@ function system.create(level)
     end
     
     local function placeJ()
-        local current, max = 0, 30
+        local current, max = 0, 1000
         
         while current < max do
             createNode("J")
