@@ -34,18 +34,18 @@ function player.createStats()
         imgui.Text("Stat Points: " .. ht.player.stats.points)
         imgui.Separator()
         
-        for i, v in pairs(stats) do
-            local type = string.lower(v)
+        for i, stat in pairs(stats) do
+            local type = string.lower(stat)
             
             imgui.Image(player.images.place, 32, 32)
             imgui.SameLine()
             imgui.AlignFirstTextHeightToWidgets()
-            imgui.Text(v .. ": " .. ht.player.stats[type])
+            imgui.Text(stat .. ": " .. ht.player.stats[type])
             
             if ht.player.canUpgradeStat(type) then
                 imgui.SameLine()
                 
-                if imgui.Button("Upgrade " .. v) then
+                if imgui.Button("Upgrade " .. stat) then
                     ht.player.upgradeStat(type)
                     player.sounds.upgrade:play()
                 end

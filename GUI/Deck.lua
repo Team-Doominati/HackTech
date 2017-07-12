@@ -5,7 +5,12 @@ local deck =
     images =
     {
         place = love.graphics.newImage("Data/GUI/Placeholder.png"),
-        CPU = love.graphics.newImage("Data/GUI/CPU.png")
+        CPU = love.graphics.newImage("Data/GUI/CPU.png"),
+        SPU = love.graphics.newImage("Data/GUI/Placeholder.png"),
+        RAM = love.graphics.newImage("Data/GUI/Placeholder.png"),
+        storage = love.graphics.newImage("Data/GUI/Placeholder.png"),
+        network = love.graphics.newImage("Data/GUI/Placeholder.png"),
+        expansion = love.graphics.newImage("Data/GUI/Placeholder.png")
     }
 }
 
@@ -30,20 +35,36 @@ function deck.createStats()
 end
 
 function deck.createHardware()
+    local hardware =
+    {
+        { "CPU",       "CPU",       " GHz"  },
+        { "SPU",       "SPU",       ""      },
+        { "RAM",       "RAM",       " GB"   },
+        { "Storage",   "storage",   " GB"   },
+        { "Network",   "network",   " GB/s" }
+    }
+    
     if imgui.CollapsingHeader("Hardware", { "DefaultOpen" }) then
         imgui.Indent()
         
-        if imgui.CollapsingHeader("CPU", { "DefaultOpen" }) then
-        end
-        if imgui.CollapsingHeader("SPU", { "DefaultOpen" }) then
-        end
-        if imgui.CollapsingHeader("RAM", { "DefaultOpen" }) then
-        end
-        if imgui.CollapsingHeader("Storage", { "DefaultOpen" }) then
-        end
-        if imgui.CollapsingHeader("Network", { "DefaultOpen" }) then
-        end
-        if imgui.CollapsingHeader("Expansion", { "DefaultOpen" }) then
+        for i, type in pairs(hardware) do
+            if imgui.CollapsingHeader(type[1] .. " (" .. #ht.deck.hardware[type[2]] .. "/" .. ht.deck.slots[type[2]] .. ")", { "DefaultOpen" }) then
+                for j, slot in ipairs(ht.deck.hardware[type[2]]) do
+                    imgui.Image(deck.images[type[2]], 32, 32)
+                    if imgui.IsItemHovered() then
+                        imgui.SetTooltip(slot .. type[3])
+                    end
+                    
+                    if j % 8 == 0 then
+                        imgui.NewLine()
+                    else
+                        imgui.SameLine()
+                    end
+                end
+            end
+            
+            imgui.NewLine()
+            imgui.NewLine()
         end
         
         imgui.Unindent()

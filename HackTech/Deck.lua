@@ -26,7 +26,7 @@ local deck =
         RAM = { 8 },
         storage = { 10 },
         network = { 1 },
-        expansion = { 1 }
+        expansion = {}
     },
     
     software = {}
