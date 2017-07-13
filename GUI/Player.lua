@@ -1,6 +1,9 @@
 local player = 
 {
-    visible = true
+    visible = true,
+    
+    mentalHealthCanvas = love.graphics.newCanvas(340, 32),
+    physicalHealthCanvas = love.graphics.newCanvas(340, 32)
 }
 
 function player.createStats()
@@ -51,34 +54,69 @@ function player.createRep()
 end
 
 function player.createHealth()
+    local function drawMentalEKG()
+        love.graphics.setCanvas(player.mentalHealthCanvas)
+        love.graphics.clear(unpack(dgl.color.transparent))
+        
+        if ht.player.health.mental >= 75 then
+            love.graphics.setColor(unpack(dgl.color.green))
+        elseif ht.player.health.mental >= 50 and ht.player.health.mental <= 74 then
+            love.graphics.setColor(unpack(dgl.color.yellow))
+        elseif ht.player.health.mental >= 25 and ht.player.health.mental <= 49 then
+            love.graphics.setColor(unpack(dgl.color.orange))
+        elseif ht.player.health.mental < 25 then
+            love.graphics.setColor(unpack(dgl.color.red))
+        end
+        
+        for x = 1, love.graphics.getCanvas():getWidth() do
+            love.graphics.points(x, 15 + math.sin(x / 10 + (timer * (20 - (ht.player.health.mental * 0.16)))) * 15)
+        end
+        
+        love.graphics.setColor(unpack(dgl.color.white))
+        love.graphics.setCanvas()
+    end
+    
+    local function drawPhysicalEKG()
+        local gap = 30 + ht.player.health.physical * 0.6
+        local offset = -((timer * 10) % gap * 4)
+        
+        love.graphics.setCanvas(player.physicalHealthCanvas)
+        love.graphics.clear(unpack(dgl.color.transparent))
+        
+        if ht.player.health.physical >= 75 then
+            love.graphics.setColor(unpack(dgl.color.green))
+        elseif ht.player.health.physical >= 50 and ht.player.health.physical <= 74 then
+            love.graphics.setColor(unpack(dgl.color.yellow))
+        elseif ht.player.health.physical >= 25 and ht.player.health.physical <= 49 then
+            love.graphics.setColor(unpack(dgl.color.orange))
+        elseif ht.player.health.physical < 25 then
+            love.graphics.setColor(unpack(dgl.color.red))
+        end
+        
+        for x = 0, 360 * 2, gap do
+            love.graphics.line(x + offset, 16, x - gap + offset + 15, 16)
+            love.graphics.line(x + gap + offset, 16, x + gap + offset + 5, 0)
+            love.graphics.line(x + gap + offset + 5, 0, x + gap + offset + 10, 32)
+            love.graphics.line(x + gap + offset + 10, 32, x + gap + offset + 15, 16)
+        end
+        
+        love.graphics.setColor(unpack(dgl.color.white))
+        love.graphics.setCanvas()
+    end
+    
     if imgui.CollapsingHeader("Health", { "DefaultOpen" }) then
-        local mentHealthPlot = {}
-        local physHealthPlot = {}
-        
-        for i = 1, 60 do
-            local percent = ht.player.health.mental / 5
-            local offset = timer * (30 - percent) + i
-            
-            mentHealthPlot[i] = 0.5 + math.sin(offset) * 0.5
-        end
-        
-        -- TODO: Make this actually work properly
-        for i = 1, 60 do
-            local percent = ht.player.health.physical / 5
-            local offset = timer * (30 - percent) + i
-            
-            physHealthPlot[i] = lume.round(math.sin(offset))
-        end
+        drawMentalEKG()
+        drawPhysicalEKG()
         
         imgui.Image(ht.data.images.heartGreen, 32, 32)
         imgui.SameLine()
         imgui.Text("Mental Health: " .. ht.player.health.mental .. "%%")
-        imgui.PlotLines("", mentHealthPlot, #mentHealthPlot, 0, "", 0, 1, 340, 32)
+        imgui.Image(player.mentalHealthCanvas, player.mentalHealthCanvas:getWidth(), player.mentalHealthCanvas:getHeight())
         
         imgui.Image(ht.data.images.heartRed, 32, 32)
         imgui.SameLine()
         imgui.Text("Physical Health: " .. ht.player.health.physical .. "%%")
-        imgui.PlotLines("", physHealthPlot, #physHealthPlot, 0, "", 0, 1, 340, 32)
+        imgui.Image(player.physicalHealthCanvas, player.physicalHealthCanvas:getWidth(), player.physicalHealthCanvas:getHeight())
     end
 end
 
