@@ -14,7 +14,7 @@ gui =    require "GUI/GUI"
 timer = 0
 cam = camera(dgl.drawing.width / 2, dgl.drawing.height / 2)
 
-print("HackTech initialized!");
+dgl.console.print("HackTech initialized!", "info")
 
 math.randomseed(os.time())
 
@@ -37,6 +37,7 @@ function love.draw()
     gui.player.update()
     gui.deck.update()
     gui.mission.update()
+    gui.log.update()
     
     cam:attach()
     ht.system.draw()

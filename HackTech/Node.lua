@@ -1,8 +1,10 @@
 Node = class("Node")
 
 function Node:initialize()
+    self.id = 0
     self.x = 0
     self.y = 0
+    self.name = ""
     self.type = "none"
     self.security = "none"
     self.ICE = {}

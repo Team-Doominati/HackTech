@@ -25,5 +25,5 @@ function Mission.generate(level)
         table.insert(ht.missions, mission)
     end
     
-    print("Generated " .. amount .. " missions")
+    dgl.console.print("Generated " .. amount .. " missions", "info")
 end

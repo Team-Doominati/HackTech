@@ -3,6 +3,7 @@ local gui = {}
 gui.player =  require "GUI/Player"
 gui.deck =    require "GUI/Deck"
 gui.mission = require "GUI/Mission"
+gui.log =     require "GUI/Log"
 
 function gui.toggle(type)
     type.visible = not type.visible

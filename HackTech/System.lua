@@ -26,7 +26,7 @@ function system.create(level, maxJ, maxDS, maxIOP)
     maxDS = maxDS or 2
     maxIOP = maxIOP or 2
     
-    local x, y = dgl.drawing.width / 2, dgl.drawing.height / 2
+    local x, y, id = dgl.drawing.width / 2, dgl.drawing.height / 2, 1
     
     local function move()
         local newX, newY = 0, 0
@@ -81,8 +81,10 @@ function system.create(level, maxJ, maxDS, maxIOP)
     local function createNode(type)
         local node = Node:new()
         
+        node.id = id
         node.x = x
         node.y = y
+        node.name = type .. "-" .. node.id
         node.type = type
         node.security = "none"
         
@@ -93,7 +95,17 @@ function system.create(level, maxJ, maxDS, maxIOP)
         
         move()
         
+        id = id + 1
+        
         table.insert(system.nodes, node)
+    end
+    
+    local function modifyNode(node, type, security)
+        security = security or "none"
+        
+        node.name = type .. "-" .. node.id
+        node.type = type
+        node.security = security
     end
     
     local function placeAP()
@@ -113,10 +125,10 @@ function system.create(level, maxJ, maxDS, maxIOP)
         local current = 0
         
         while current < maxDS do
-            local node = math.random(2, #system.nodes - 1)
+            local node = system.nodes[math.random(2, #system.nodes - 1)]
             
-            if system.nodes[node].type == "J" then
-                system.nodes[node].type = "DS"
+            if node.type == "J" then
+                modifyNode(node, "DS")
                 
                 current = current + 1
             end
@@ -127,10 +139,10 @@ function system.create(level, maxJ, maxDS, maxIOP)
         local current = 0
         
         while current < maxIOP do
-            local node = math.random(2, #system.nodes - 1)
+            local node = system.nodes[math.random(2, #system.nodes - 1)]
             
-            if system.nodes[node].type == "J" then
-                system.nodes[node].type = "IOP"
+            if node.type == "J" then
+                modifyNode(node, "IOP")
                 
                 current = current + 1
             end
@@ -141,17 +153,17 @@ function system.create(level, maxJ, maxDS, maxIOP)
         local placed = false
         
         while not placed do
-            local SM = math.random(2, #system.nodes - 1)
+            local node = system.nodes[math.random(2, #system.nodes - 1)]
             
-            if system.nodes[SM].type == "J" then
-                system.nodes[SM].type = "SM"
+            if node.type == "J" then
+                modifyNode(node, "SM")
                 placed = true
             end
         end
     end
     
     local function placeCPU()
-        system.nodes[#system.nodes].type = "CPU"
+        modifyNode(system.nodes[#system.nodes], "CPU")
     end
     
     system.clear()
@@ -165,7 +177,11 @@ function system.create(level, maxJ, maxDS, maxIOP)
     
     system.nodes[1]:center()
     
-    print("Generated level " .. level .. " system with " .. #system.nodes .. " nodes")
+    for i, node in pairs(system.nodes) do
+        gui.log.add("Node " .. node.name .. " found", "info")
+    end
+    
+    dgl.console.print("Generated level " .. level .. " system with " .. #system.nodes .. " nodes", "info")
 end
 
 function system.draw()
