@@ -181,14 +181,18 @@ function system.draw()
     for i, node in pairs(system.nodes) do
         if node.next ~= nil then
             if i == system.currentNode and system.getCurrentNode().cleared then
+                love.graphics.setLineWidth(3 + (math.sin(timer * 4) * 2))
                 love.graphics.setColor(unpack(dgl.color.yellow))
             elseif i <= system.cleared then
+                love.graphics.setLineWidth(3)
                 love.graphics.setColor(unpack(dgl.color.green))
             else
                 love.graphics.setColor(unpack(dgl.color.white))
             end
             
             love.graphics.line(node.x, node.y, node.next.x, node.next.y)
+            
+            love.graphics.setLineWidth(1)
         end
     end
     
