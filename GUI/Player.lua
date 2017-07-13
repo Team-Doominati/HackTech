@@ -38,7 +38,7 @@ function player.createStats()
                 
                 if imgui.Button("Upgrade " .. stat) then
                     ht.player.upgradeStat(type)
-                    player.sounds.upgrade:play()
+                    ht.data.sounds.upgradeStat:play()
                 end
             end
         end

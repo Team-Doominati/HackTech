@@ -79,6 +79,10 @@ function love.keypressed(key, isRepeat)
         gui.toggle(gui.mission)
     end
     
+    if key == "f5" then
+        gui.toggle(gui.log)
+    end
+    
     if key == "f6" then
         ht.system.create()
         ht.system.connected = true
