@@ -212,7 +212,7 @@ function system.keypressed(key)
 end
 
 function system.move()
-    if system.currentNode < #system.nodes - 1 and system.getCurrentNode().cleared then
+    if system.currentNode < #system.nodes and system.getCurrentNode().cleared then
         system.currentNode = system.currentNode + 1
         
         if system.currentNode > system.cleared then
