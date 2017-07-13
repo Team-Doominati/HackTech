@@ -2,6 +2,9 @@ local system =
 {
     connected = false,
     
+    wait = false,
+    waitTimer = 0,
+    
     level = 1,
     
     nodes = {},
@@ -14,7 +17,7 @@ local system =
     
     target = nil,
     
-    nodeOffset = 128,
+    nodeOffset = 512,
     
     sounds =
     {
@@ -165,6 +168,8 @@ function system.create(level, maxJ, maxDS, maxIOP)
     placeSM()
     placeCPU()
     
+    system.nodes[1]:center()
+    
     print("Generated level " .. level .. " system with " .. #system.nodes .. " nodes")
 end
 
@@ -201,13 +206,21 @@ function system.update(dt)
     for i, node in pairs(system.nodes) do
         node:update()
     end
+    
+    if system.waitTimer > 0 then
+        system.waitTimer = system.waitTimer - dt
+    end
 end
 
 function system.keypressed(key)
-    if not system.connected then return end
+    if not system.connected and not system.wait then return end
     
     if key == "space" then
         system.move()
+    end
+    
+    if key == "lctrl" then
+        system.getCurrentNode():center()
     end
 end
 
@@ -219,7 +232,9 @@ function system.move()
             system.cleared = system.currentNode
         end
         
+        system.getCurrentNode():center()
         system.sounds.move:play()
+        
         system.turn = system.turn + 1
     end
 end

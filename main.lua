@@ -2,22 +2,17 @@ require "imgui"
 
 require "Lib/Sandbox"
 
-class = require "Lib/Class"
-flux =  require "Lib/Flux"
-lume =  require "Lib/Lume"
+class  = require "Lib/Class"
+camera = require "Lib/Camera"
+flux =   require "Lib/Flux"
+lume =   require "Lib/Lume"
 
-dgl =   require "DGL/DGL"
-ht  =   require "HackTech/HackTech"
-gui =   require "GUI/GUI"
+dgl =    require "DGL/DGL"
+ht  =    require "HackTech/HackTech"
+gui =    require "GUI/GUI"
 
 timer = 0
-camera =
-{
-    x = 0,
-    y = 0,
-    sx = 1,
-    sy = 1
-}
+cam = camera(dgl.drawing.width / 2, dgl.drawing.height / 2)
 
 print("HackTech initialized!");
 
@@ -34,21 +29,18 @@ function love.quit()
 end
 
 function love.draw()
-    love.graphics.push()
-    
     local width, height = love.graphics.getDimensions()
     love.graphics.scale(width / dgl.drawing.width, height / dgl.drawing.height)
     love.graphics.scale(camera.sx, camera.sy)
-    love.graphics.translate(camera.x, camera.y)
     
     dgl.console.update()
     gui.player.update()
     gui.deck.update()
     gui.mission.update()
     
+    cam:attach()
     ht.system.draw()
-    
-    love.graphics.pop()
+    cam:detach()
     
     imgui.Render();
 end
@@ -126,8 +118,7 @@ function love.mousemoved(x, y, dx, dy, isTouch)
     
     if not imgui.GetWantCaptureMouse() then
         if love.mouse.isDown(2) then
-            camera.x = camera.x + dx
-            camera.y = camera.y + dy
+            cam:move(-dx * (2 / cam.scale), -dy * (2 / cam.scale))
         end
     end
 end
@@ -136,21 +127,12 @@ function love.wheelmoved(x, y)
     imgui.WheelMoved(y)
     
     if not imgui.GetWantCaptureMouse() then
-        camera.sx = camera.sx + (y * 0.25)
-        camera.sy = camera.sy + (y * 0.25)
+        if y == -1 and cam.scale > 0.05 then
+            cam:zoom(0.5)
+        elseif y == 1 and cam.scale < 1 then
+            cam:zoom(2)
+        end
         
-        if camera.sx <= 0.25 then
-            camera.sx = 0.25
-        end
-        if camera.sx > 2 then
-            camera.sx = 2
-        end
-        if camera.sy <= 0.25 then
-            camera.sy = 0.25
-        end
-        if camera.sy > 2 then
-            camera.sy = 2
-        end
     end
 end
 
