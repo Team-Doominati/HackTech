@@ -4,7 +4,58 @@ local data =
     images = {},
     sounds = {},
     
-    company = {},
+    company =
+    {
+        "Aergate Global Securities",
+        "Cypher Tech",
+        "Nano Com",
+        "HWT - Home World Terraforming",
+        "Eugrot",
+        "Nanosoft",
+        "NNT – New Nano Technologies",
+        "Delta Corp",
+        "Xeron Net",
+        "Kordyne Industries",
+        "Nurimatic Corporation",
+        "Onlink Securities",
+        "Emaxx",
+        "Carbon Canines",
+        "Converge Technologies",
+        "Cyrix Technologies",
+        "Fyrecross Electronics",
+        "Exis Pharmaceuticals",
+        "Pangaea World Terraforming",
+        "Redline Global Transportation",
+        "Broadsword Aeronautics",
+        "Sukima Pan-Global Enterprises",
+        "Orion Telecommunications Corp",
+        "Pharmatech",
+        "Matsukara Securities",
+        "Averis",
+        "FILO - First In, Last Out",
+        "QED Solutions",
+        "ES Enterprises (Energy Solutions)",
+        "Tekada Industries",
+        "Certex Circuitry",
+        "GI Orbital Construction",
+        "Zen Biotics",
+        "Circuitronix",
+        "Hydrillex Corporation",
+        "Max Security Guarantees",
+        "Everstein Enterprises",
+        "Eversoft",
+        "Everstein General Motors",
+        "ETSC - Everstein Tactical Securities Company",
+        "Serygenix",
+        "Serygen Tech",
+        "SAS - Serygen Advanced Securities",
+        "Advanced Nanite Technologies",
+        "Datasync Corporation",
+        "Devlan Group",
+        "Saris Industries",
+        "Coplan Initiative",
+        "Shen Dynamics"
+    },
     
     mission =
     {
@@ -176,18 +227,6 @@ function data.loadSound(path, name)
     end
     
     data.sounds[name] = love.audio.newSource(path, type)
-end
-
-function data.loadCompanies()
-    local file = "Data/company.dat"
-    
-    for line in io.lines(file) do
-        if line ~= "" then
-            table.insert(data.company, line)
-        end
-    end
-    
-    print("Company data loaded: " .. #data.company .. " total companies")
 end
 
 return data
