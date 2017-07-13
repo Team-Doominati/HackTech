@@ -8,7 +8,7 @@ ht.system = require "HackTech/System"
 
 -- Classes
 require "HackTech/Mission"
-require "Hacktech/Node"
+require "HackTech/Node"
 
 -- Globals
 ht.day = 1
