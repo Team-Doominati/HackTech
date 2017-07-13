@@ -9,7 +9,7 @@ function deck.createStats()
         imgui.SameLine()
         imgui.Text("Central Processing Unit\nPower: " .. ht.deck.stats.power .. " GHz")
         imgui.Text("Usage: " .. ht.deck.usage.power .. " GHz")
-        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.power, ht.deck.stats.power))
+        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.power, ht.deck.stats.power) / 100)
         
         imgui.Separator()
         
@@ -17,7 +17,7 @@ function deck.createStats()
         imgui.SameLine()
         imgui.Text("Sub Processing Unit\nThreads: " .. ht.deck.stats.threads)
         imgui.Text("Usage: " .. ht.deck.usage.threads)
-        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.threads, ht.deck.stats.threads))
+        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.threads, ht.deck.stats.threads) / 100)
         
         imgui.Separator()
         
@@ -25,7 +25,7 @@ function deck.createStats()
         imgui.SameLine()
         imgui.Text("Random Access Memory\nSize: " .. ht.deck.stats.RAM .. " GB")
         imgui.Text("Usage: " .. ht.deck.usage.RAM .. " GB")
-        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.RAM, ht.deck.stats.RAM))
+        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.RAM, ht.deck.stats.RAM) / 100)
         
         imgui.Separator()
         
@@ -33,7 +33,7 @@ function deck.createStats()
         imgui.SameLine()
         imgui.Text("Hard Drive\nStorage: " .. ht.deck.stats.storage .. " GB")
         imgui.Text("Usage: " .. ht.deck.usage.storage .. " GB")
-        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.storage, ht.deck.stats.storage))
+        imgui.ProgressBar(dgl.math.percent(ht.deck.usage.storage, ht.deck.stats.storage) / 100)
         
         imgui.Separator()
         
@@ -106,11 +106,33 @@ function deck.createSoftware()
                     imgui.Image(ht.data.images.placeholder, 32, 32)
                     
                     if imgui.IsItemHovered() then
-                        if ht.deck.software[type[2]] == 0 then
+                        if ht.deck.software[type[2]].level == 0 then
                             imgui.SetTooltip(type[1])
                         else
-                            imgui.SetTooltip(type[1] .. " " .. ht.deck.software[type[2]])
+                            imgui.SetTooltip(type[1] .. " " .. ht.deck.software[type[2]].level)
                         end
+                    end
+                    
+                    local state = "Load"
+                    print(ht.deck.software.attack)
+                    if ht.deck.software[type[2]].loaded then
+                        state = "Unload"
+                    end
+                    
+                    if (ht.deck.software[type[2]].level > 0 or ht.player.stats.programming > 0) and imgui.BeginPopup("Software " .. type[1]) then
+                        if ht.deck.software[type[2]].level > 0 and imgui.Selectable(state .. " Program") then
+                            ht.deck.load(type[2])
+                        end
+                        
+                        if ht.player.stats.programming > 0 and imgui.Selectable("Create Program") then
+                            -- TODO
+                        end
+                        
+                        imgui.EndPopup()
+                    end
+                    
+                    if imgui.IsItemClicked(1) then
+                        imgui.OpenPopup("Software " .. type[1])
                     end
                     
                     if j % 8 == 0 and j < #ht.data.software[i] then

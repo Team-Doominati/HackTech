@@ -48,6 +48,10 @@ local player =
         company = "",
         level = 0,
         payment = 0
+    },
+    
+    project =
+    {
     }
 }
 
@@ -109,6 +113,10 @@ function player.clearMission()
     player.mission.company = ""
     player.mission.level = 0
     player.mission.payment = 0
+end
+
+function player.startProject(type, level)
+    -- tODO
 end
 
 function player.getLevelNext()

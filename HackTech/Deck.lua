@@ -31,70 +31,31 @@ local deck =
     {
         CPU = { 1 },
         SPU = { 4 },
-        RAM = { 8 },
-        storage = { 10 },
+        RAM = { 4 },
+        storage = { 4 },
         network = { 1 },
         expansion = {}
     },
     
-    software =
-    {
-        attack = 1,
-        breaker = 0,
-        pierce = 0,
-        slice = 0,
-        scramble = 0,
-        virus = 0,
-        slow = 0,
-        confuse = 0,
-        weaken = 0,
-        overclock = 0,
-        
-        areaAttack = 0,
-        areaBreaker = 0,
-        areaPierce = 0,
-        areaSlice = 0,
-        areaScramble = 0,
-        areaVirus = 0,
-        areaSlow = 0,
-        areaConfuse = 0,
-        
-        shield = 0,
-        armor = 0,
-        plating = 0,
-        medic = 0,
-        maintain = 0,
-        regen = 0,
-        nanogen = 0,
-        reflect = 0,
-        
-        deceive = 1,
-        relocate = 0,
-        camo = 0,
-        sleaze = 0,
-        silence = 0,
-        smoke = 0,
-        
-        analyze = 1,
-        scan = 1,
-        evaluate = 0,
-        decrypt = 0,
-        crack = 0,
-        calculate = 0,
-        bypass = 0,
-        relay = 0,
-        synthesize = 0,
-        
-        boostPassiveAttack = 0,
-        boostPassiveDefense = 0,
-        boostPassiveStealth = 0,
-        boostPassiveAnalysis = 0,
-        boostActiveAttack = 0,
-        boostActiveDefense = 0,
-        boostActiveStealth = 0,
-        boostActiveAnalysis = 0
-    }
+    software = {}
 }
+
+function deck.initialize()
+    for i, category in ipairs(ht.data.software) do
+        for j, type in ipairs(ht.data.software[i]) do
+            deck.software[type[2]] = Software:new(type[2])
+        end
+    end
+    
+    deck.software.attack.level = 1
+    deck.software.deceive.level = 1
+    deck.software.analyze.level = 1
+    deck.software.scan.level = 1
+    deck.software.attack.loaded = true
+    deck.software.deceive.loaded = true
+    deck.software.analyze.loaded = true
+    deck.software.scan.loaded = true
+end
 
 function deck.update()
     deck.stats.power = 0
@@ -108,18 +69,40 @@ function deck.update()
     end
     
     deck.stats.RAM = 0
+    deck.usage.RAM = 0
     for i, v in ipairs(deck.hardware.RAM) do
         deck.stats.RAM = deck.stats.RAM + v
     end
+    for k, software in pairs(deck.software) do
+        if software.loaded then
+            deck.usage.RAM = deck.usage.RAM + software:getSize()
+        end
+    end
     
     deck.stats.storage = 0
+    deck.usage.storage = 0
     for i, v in ipairs(deck.hardware.storage) do
         deck.stats.storage = deck.stats.storage + v
+    end
+    for k, software in pairs(deck.software) do
+        deck.usage.storage = deck.usage.storage + software:getSize()
     end
     
     deck.stats.bandwidth = 0
     for i, v in ipairs(deck.hardware.network) do
         deck.stats.bandwidth = deck.stats.bandwidth + v
+    end
+end
+
+function deck.load(type)
+    if deck.software[type].loaded then
+        deck.software[type].loaded = false
+        ht.data.sounds.softwareUnload:play()
+    elseif deck.usage.RAM + deck.software[type]:getSize() <= deck.stats.RAM then
+        deck.software[type].loaded = true
+        ht.data.sounds.softwareLoad:play()
+    else
+        ht.data.sounds.softwareFail:play()
     end
 end
 

@@ -20,7 +20,7 @@ math.randomseed(os.time())
 
 function love.load()
     ht.data.load()
-    
+    ht.deck.initialize()
     Mission.generate(1)
 end
 
