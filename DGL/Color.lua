@@ -14,6 +14,6 @@ return
     white =         { 255, 255, 255, 255 },
     
 	-- Green
-    lightGreen =    { 0,   32,  0,   255 },
+    darkGreen =     { 0,   32,  0,   255 },
     mediumGreen =   { 0,   128, 0,   255 },
 }

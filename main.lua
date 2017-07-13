@@ -1,14 +1,14 @@
 require "imgui"
 
-require "Lib/Class"
 require "Lib/Sandbox"
 
-flux = require "Lib/Flux"
-lume = require "Lib/Lume"
+class = require "Lib/Class"
+flux =  require "Lib/Flux"
+lume =  require "Lib/Lume"
 
-dgl =  require "DGL/DGL"
-ht  =  require "HackTech/HackTech"
-gui =  require "GUI/GUI"
+dgl =   require "DGL/DGL"
+ht  =   require "HackTech/HackTech"
+gui =   require "GUI/GUI"
 
 timer = 0
 camera =
@@ -58,7 +58,7 @@ function love.update(dt)
     flux.update(dt)
     
     ht.deck.update()
-    ht.system.update()
+    ht.system.update(dt)
     
     timer = timer + dt
 end
@@ -72,10 +72,6 @@ function love.keypressed(key, isRepeat)
     
     if key == "`" then
         gui.toggle(dgl.console)
-    end
-    
-    if key == "\\" then
-        dgl.music.playRandomSong("Data/Music")
     end
     
     if key == "f1" then
@@ -93,6 +89,10 @@ function love.keypressed(key, isRepeat)
     if key == "f6" then
         ht.system.create()
         ht.system.connected = true
+    end
+    
+    if key == "f7" then
+        dgl.music.playRandomSong("Data/Music")
     end
     
     if not imgui.GetWantCaptureKeyboard() then

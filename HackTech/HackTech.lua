@@ -6,6 +6,9 @@ hacktech.player = require "HackTech/Player"
 hacktech.deck =   require "HackTech/Deck"
 hacktech.system = require "HackTech/System"
 
+-- Classes
+require "Hacktech/Node"
+
 -- Globals
 hacktech.day = 1
 hacktech.missions = {}

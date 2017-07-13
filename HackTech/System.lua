@@ -81,18 +81,12 @@ function system.create(level, maxJ, maxDS, maxIOP)
     end
     
     local function createNode(type)
-        local node = {}
+        local node = Node:new()
         
         node.x = x
         node.y = y
         node.type = type
-        node.security = "white"
-        node.ICE = {}
-        node.cleared = false
-        node.activated = false
-        node.objective = false
-        node.prev = nil
-        node.next = nil
+        node.security = "none"
         
         if #system.nodes > 0 then
             node.prev = system.nodes[#system.nodes]
@@ -174,32 +168,10 @@ function system.create(level, maxJ, maxDS, maxIOP)
     print("Generated level " .. level .. " system with " .. #system.nodes .. " nodes")
 end
 
-function system.move(type)
-    if type == "forward" and system.currentNode < #system.nodes - 1 and system.getCurrentNode().cleared then
-        system.currentNode = system.currentNode + 1
-        
-        if system.currentNode > system.cleared then
-            system.cleared = system.currentNode
-        end
-        
-        system.sounds.move:play()
-        system.turn = system.turn + 1
-    elseif type == "back" and system.currentNode > 1 then
-        system.currentNode = system.currentNode - 1
-        
-        system.sounds.move:play()
-        system.turn = system.turn + 1
-    end
-end
-
-function system.getCurrentNode()
-    return system.nodes[system.currentNode]
-end
-
 function system.draw()
     if not system.connected then return end
     
-    love.graphics.setBackgroundColor(0, 16, 0)
+    love.graphics.setBackgroundColor(dgl.color.darkGreen)
     
     for i, node in pairs(system.nodes) do
         if node.next ~= nil then
@@ -216,90 +188,18 @@ function system.draw()
     end
     
     for i, node in pairs(system.nodes) do
-        local size = 0
-        local securityColor = {}
-        local nodeColor = {}
-        
-        if node.security == "white" then
-            securityColor = dgl.color.white
-        elseif node.security == "green" then
-            securityColor = dgl.color.green
-        elseif node.security == "yellow" then
-            securityColor = dgl.color.yellow
-        elseif node.security == "orange" then
-            securityColor = dgl.color.orange
-        elseif node.security == "red" then
-            securityColor = dgl.color.red
-        end
-        
-        if node.type == "AP" then
-            size = 64
-            nodeColor = dgl.color.purple
-            
-            love.graphics.setColor(securityColor[1], securityColor[2], securityColor[3], 128)
-            love.graphics.setLineWidth(4)
-            love.graphics.circle("line", node.x, node.y, size)
-            love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
-            love.graphics.circle("fill", node.x, node.y, size)
-        elseif node.type == "J" then
-            size = 32
-            nodeColor = dgl.color.cyan
-            
-            love.graphics.setColor(securityColor[1], securityColor[2], securityColor[3], 128)
-            love.graphics.setLineWidth(4)
-            love.graphics.circle("line", node.x, node.y, size)
-            love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
-            love.graphics.circle("fill", node.x, node.y, size)
-        elseif node.type == "DS" then
-            size = 64
-            nodeColor = dgl.color.green
-            
-            love.graphics.setColor(securityColor[1], securityColor[2], securityColor[3], 128)
-            love.graphics.setLineWidth(4)
-            love.graphics.rectangle("line", node.x - size / 2, node.y - size / 2, size, size)
-            love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
-            love.graphics.rectangle("fill", node.x - size / 2, node.y - size / 2, size, size)
-        elseif node.type == "IOP" then
-            size = 48
-            nodeColor = dgl.color.yellow
-            
-            love.graphics.setColor(securityColor[1], securityColor[2], securityColor[3], 128)
-            love.graphics.setLineWidth(4)
-            love.graphics.circle("line", node.x, node.y, size, 3)
-            love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
-            love.graphics.circle("fill", node.x, node.y, size, 3)
-        elseif node.type == "SM" then
-            size = 48
-            nodeColor = dgl.color.orange
-            
-            love.graphics.setColor(securityColor[1], securityColor[2], securityColor[3], 128)
-            love.graphics.setLineWidth(4)
-            love.graphics.circle("line", node.x, node.y, size, 4)
-            love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
-            love.graphics.circle("fill", node.x, node.y, size, 4)
-        elseif node.type == "CPU" then
-            size = 56
-            nodeColor = dgl.color.red
-            
-            love.graphics.setColor(securityColor[1], securityColor[2], securityColor[3], 128)
-            love.graphics.setLineWidth(4)
-            love.graphics.circle("line", node.x, node.y, size, 8)
-            love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
-            love.graphics.circle("fill", node.x, node.y, size, 8)
-        end
+        node:draw()
     end
     
     love.graphics.setColor(unpack(dgl.color.white))
     love.graphics.setLineWidth(1)
 end
 
-function system.update()
+function system.update(dt)
     if not system.connected then return end
     
     for i, node in pairs(system.nodes) do
-        if #node.ICE == 0 then -- Temporary check, later it should iterate ICE and check if they are clear as well
-            node.cleared = true
-        end
+        node:update()
     end
 end
 
@@ -307,21 +207,25 @@ function system.keypressed(key)
     if not system.connected then return end
     
     if key == "space" then
-        system.move("forward")
-    end
-    if key == "c" then
-        system.move("back")
+        system.move()
     end
 end
 
-function system.clear()
-    system.nodes = {}
-    system.currentNode = 1
-    system.cleared = 0
-    system.turn = 1
-    system.target = nil
-    
-    system.setAlert("none")
+function system.move()
+    if system.currentNode < #system.nodes - 1 and system.getCurrentNode().cleared then
+        system.currentNode = system.currentNode + 1
+        
+        if system.currentNode > system.cleared then
+            system.cleared = system.currentNode
+        end
+        
+        system.sounds.move:play()
+        system.turn = system.turn + 1
+    end
+end
+
+function system.getCurrentNode()
+    return system.nodes[system.currentNode]
 end
 
 function system.setAlert(level)
@@ -332,6 +236,16 @@ function system.setAlert(level)
     elseif system.alert == "active" then
     elseif system.alert == "shutdown" then
     end
+end
+
+function system.clear()
+    for i, node in pairs(system.nodes) do
+        node:initialize()
+    end
+    
+    system.nodes = {}
+    
+    system.setAlert("none")
 end
 
 return system
