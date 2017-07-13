@@ -39,6 +39,7 @@ function Node:draw()
         love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
         love.graphics.circle("fill", self.x, self.y, size)
     elseif self.type == "J" then
+        size = size / 2
         nodeColor = dgl.color.cyan
         
         love.graphics.setColor(securityColor[1], securityColor[2], securityColor[3], 128)
@@ -47,6 +48,7 @@ function Node:draw()
         love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
         love.graphics.circle("fill", self.x, self.y, size)
     elseif self.type == "DS" then
+        size = size * 1.5
         nodeColor = dgl.color.green
         
         love.graphics.setColor(securityColor[1], securityColor[2], securityColor[3], 128)

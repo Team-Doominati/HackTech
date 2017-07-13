@@ -260,6 +260,10 @@ function system.clear()
     
     system.nodes = {}
     
+    system.currentNode = 1
+    system.cleared = 0
+    system.turn = 1
+    
     system.setAlert("none")
 end
 

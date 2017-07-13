@@ -132,7 +132,6 @@ function love.wheelmoved(x, y)
         elseif y == 1 and cam.scale < 1 then
             cam:zoom(2)
         end
-        
     end
 end
 
