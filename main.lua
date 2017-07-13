@@ -19,9 +19,10 @@ print("HackTech initialized!");
 math.randomseed(os.time())
 
 function love.load()
+    ht.data.load()
     ht.data.loadCompanies()
     
-    ht.generateMissions(1)
+    Mission.generate(1)
 end
 
 function love.quit()

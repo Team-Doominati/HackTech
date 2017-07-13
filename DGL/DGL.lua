@@ -1,6 +1,6 @@
 local dgl = {}
 
--- Enums/Tables
+-- Constants/Tables
 dgl.color =    require "DGL/Color"
 
 -- Modules

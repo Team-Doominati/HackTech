@@ -6,7 +6,7 @@ function love.conf(t)
     t.gammacorrect = false                  -- Enable gamma-correct rendering, when supported by the system (boolean)
     
     t.window.title = "HackTech"             -- The window title (string)
-    t.window.icon = "Data/System/Icon.png"  -- Filepath to an image to use as the window's icon (string)
+    t.window.icon = "Data/icon.png"         -- Filepath to an image to use as the window's icon (string)
     t.window.width = 1280                   -- The window width (number)
     t.window.height = 720                   -- The window height (number)
     t.window.borderless = true              -- Remove all border visuals from the window (boolean)

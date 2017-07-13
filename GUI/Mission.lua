@@ -1,23 +1,13 @@
 local mission =
 {
-    visible = true,
-    
-    images =
-    {
-        place = love.graphics.newImage("Data/GUI/Placeholder.png")
-    },
-    
-    sounds =
-    {
-        accept = love.audio.newSource("Data/Sound/MissionAccept.wav", "static")
-    }
+    visible = true
 }
 
 function mission.createMissions()
     local selected = 0
     
     for i = 1, #ht.missions do
-        if imgui.ImageButton(mission.images.place, 32, 32) then
+        if imgui.ImageButton(ht.data.images.placeholder, 32, 32) then
             selected = i
         end
         
@@ -27,12 +17,12 @@ function mission.createMissions()
     
     if selected > 0 then
         ht.player.acceptMission(selected)
-        mission.sounds.accept:play()
+        ht.data.sounds.missionAccept:play()
     end
 end
 
 function mission.createCurrentMission()
-    imgui.Image(mission.images.place, 32, 32)
+    imgui.Image(ht.data.images.placeholder, 32, 32)
     imgui.SameLine()
     imgui.Text("Target: " .. ht.player.mission.company .. "\nType: " .. ht.player.mission.description .. "\nLevel: " .. ht.player.mission.level .. "\nPayment: " .. ht.player.mission.payment .. " C")
 end

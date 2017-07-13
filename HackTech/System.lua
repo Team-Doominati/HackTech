@@ -18,11 +18,6 @@ local system =
     target = nil,
     
     nodeOffset = 512,
-    
-    sounds =
-    {
-        move = love.audio.newSource("Data/Sound/Move.wav", "static")
-    }
 }
 
 function system.create(level, maxJ, maxDS, maxIOP)
@@ -237,7 +232,7 @@ function system.move()
         end
         
         system.getCurrentNode():center()
-        system.sounds.move:play()
+        ht.data.sounds.move:play()
         
         system.turn = system.turn + 1
     end

@@ -1,23 +1,11 @@
 local deck =
 {
-    visible = true,
-    
-    images =
-    {
-        place = love.graphics.newImage("Data/GUI/Placeholder.png"),
-        
-        CPU = love.graphics.newImage("Data/GUI/CPU.png"),
-        SPU = love.graphics.newImage("Data/GUI/Placeholder.png"),
-        RAM = love.graphics.newImage("Data/GUI/Placeholder.png"),
-        storage = love.graphics.newImage("Data/GUI/Placeholder.png"),
-        network = love.graphics.newImage("Data/GUI/Placeholder.png"),
-        expansion = love.graphics.newImage("Data/GUI/Placeholder.png")
-    }
+    visible = true
 }
 
 function deck.createStats()
     if imgui.CollapsingHeader("Stats", { "DefaultOpen" }) then
-        imgui.Image(deck.images.CPU, 32, 32)
+        imgui.Image(ht.data.images.CPU, 32, 32)
         imgui.SameLine()
         imgui.Text("Central Processing Unit\nPower: " .. ht.deck.stats.power .. " GHz")
         imgui.Text("Usage: " .. ht.deck.usage.power .. " GHz")
@@ -25,7 +13,7 @@ function deck.createStats()
         
         imgui.Separator()
         
-        imgui.Image(deck.images.place, 32, 32)
+        imgui.Image(ht.data.images.placeholder, 32, 32)
         imgui.SameLine()
         imgui.Text("Sub Processing Unit\nThreads: " .. ht.deck.stats.threads)
         imgui.Text("Usage: " .. ht.deck.usage.threads)
@@ -33,7 +21,7 @@ function deck.createStats()
         
         imgui.Separator()
         
-        imgui.Image(deck.images.place, 32, 32)
+        imgui.Image(ht.data.images.placeholder, 32, 32)
         imgui.SameLine()
         imgui.Text("Random Access Memory\nSize: " .. ht.deck.stats.RAM .. " GB")
         imgui.Text("Usage: " .. ht.deck.usage.RAM .. " GB")
@@ -41,7 +29,7 @@ function deck.createStats()
         
         imgui.Separator()
         
-        imgui.Image(deck.images.place, 32, 32)
+        imgui.Image(ht.data.images.placeholder, 32, 32)
         imgui.SameLine()
         imgui.Text("Hard Drive\nStorage: " .. ht.deck.stats.storage .. " GB")
         imgui.Text("Usage: " .. ht.deck.usage.storage .. " GB")
@@ -49,7 +37,7 @@ function deck.createStats()
         
         imgui.Separator()
         
-        imgui.Image(deck.images.place, 32, 32)
+        imgui.Image(ht.data.images.placeholder, 32, 32)
         imgui.SameLine()
         imgui.Text("Network Adapter\nBandwidth: " .. ht.deck.stats.bandwidth .. " GB/s")
     end
@@ -73,7 +61,7 @@ function deck.createHardware()
                 imgui.NewLine()
                 
                 for j, slot in ipairs(ht.deck.hardware[type[2]]) do
-                    imgui.Image(deck.images[type[2]], 32, 32)
+                    imgui.Image(ht.data.images.placeholder, 32, 32)
                     
                     if imgui.IsItemHovered() then
                         imgui.SetTooltip(slot .. type[3])
@@ -106,76 +94,6 @@ function deck.createSoftware()
         "Boost"
     }
     
-    local software =
-    {
-        {
-            { "Attack", "attack" },
-            { "Break", "breaker" },
-            { "Pierce", "pierce" },
-            { "Slice", "slice" },
-            { "Scramble", "scramble" },
-            { "Virus", "virus" },
-            { "Slow", "slow" },
-            { "Confuse", "confuse" },
-            { "Weaken", "weaken" },
-            { "Overclock", "overclock" }
-        },
-        
-        {
-            { "Area Attack", "areaAttack" },
-            { "Area Break", "areaBreaker" },
-            { "Area Pierce", "areaPierce" },
-            { "Area Slice", "areaSlice" },
-            { "Area Scramble", "areaScramble" },
-            { "Area Virus", "areaVirus" },
-            { "Area Slow", "areaSlow" },
-            { "Area Confuse", "areaConfuse" }
-        },
-        
-        {
-            { "Shield", "shield" },
-            { "Armor", "armor" },
-            { "Plating", "plating" },
-            { "Medic", "medic" },
-            { "Maintain", "maintain" },
-            { "Regen", "regen" },
-            { "Nanogen", "nanogen" },
-            { "Reflect", "reflect" }
-        },
-        
-        {
-            { "Deceive", "deceive" },
-            { "Relocate", "relocate" },
-            { "Camo", "camo" },
-            { "Sleaze", "sleaze" },
-            { "Silence", "silence" },
-            { "Smoke", "smoke" }
-        },
-        
-        {
-            { "Analyze", "analyze" },
-            { "Scan", "scan" },
-            { "Evaluate", "evaluate" },
-            { "Decrypt", "decrypt" },
-            { "Crack", "crack" },
-            { "Calculate", "calculate" },
-            { "Bypass", "bypass" },
-            { "Relay", "relay" },
-            { "Synthesize", "synthesize" }
-        },
-        
-        {
-            { "Boost Attack (Passive)", "boostPassiveAttack" },
-            { "Boost Defense (Passive)", "boostPassiveDefense" },
-            { "Boost Stealth (Passive)", "boostPassiveStealth" },
-            { "Boost Analysis (Passive)", "boostPassiveAnalysis" },
-            { "Boost Attack (Active)", "boostActiveAttack" },
-            { "Boost Defense (Active)", "boostActiveDefense" },
-            { "Boost Stealth (Active)", "boostActiveStealth" },
-            { "Boost Analysis (Active)", "boostActiveAnalysis" }
-        }
-    }
-    
     if imgui.CollapsingHeader("Software", { "DefaultOpen" }) then
         imgui.Indent()
         
@@ -184,8 +102,8 @@ function deck.createSoftware()
                 imgui.Indent()
                 imgui.NewLine()
                 
-                for j, type in ipairs(software[i]) do
-                    imgui.Image(deck.images.place, 32, 32)
+                for j, type in ipairs(ht.data.software[i]) do
+                    imgui.Image(ht.data.images.placeholder, 32, 32)
                     
                     if imgui.IsItemHovered() then
                         if ht.deck.software[type[2]] == 0 then
@@ -195,7 +113,7 @@ function deck.createSoftware()
                         end
                     end
                     
-                    if j % 8 == 0 and j < #software[i] then
+                    if j % 8 == 0 and j < #ht.data.software[i] then
                         imgui.NewLine()
                     else
                         imgui.SameLine()

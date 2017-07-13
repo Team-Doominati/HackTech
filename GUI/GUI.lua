@@ -6,8 +6,8 @@ gui.mission = require "GUI/Mission"
 
 gui.sounds =
 {
-    open = love.audio.newSource("Data/Sound/GUIOpen.wav", "static"),
-    close = love.audio.newSource("Data/Sound/GUIClose.wav", "static")
+    open = love.audio.newSource("Data/Sounds/GUIOpen.wav", "static"),
+    close = love.audio.newSource("Data/Sounds/GUIClose.wav", "static")
 }
 
 function gui.toggle(type)

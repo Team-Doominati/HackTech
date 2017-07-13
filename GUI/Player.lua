@@ -1,18 +1,6 @@
 local player = 
 {
-    visible = true,
-    
-    images =
-    {
-        place = love.graphics.newImage("Data/GUI/Placeholder.png"),
-        heartGreen = love.graphics.newImage("Data/GUI/HeartGreen.png"),
-        heartRed = love.graphics.newImage("Data/GUI/HeartRed.png")
-    },
-    
-    sounds =
-    {
-        upgrade = love.audio.newSource("Data/Sound/UpgradeStat.wav", "static")
-    }
+    visible = true
 }
 
 function player.createStats()
@@ -37,7 +25,7 @@ function player.createStats()
         for i, stat in pairs(stats) do
             local type = string.lower(stat)
             
-            imgui.Image(player.images.place, 32, 32)
+            imgui.Image(ht.data.images.placeholder, 32, 32)
             imgui.SameLine()
             imgui.AlignFirstTextHeightToWidgets()
             imgui.Text(stat .. ": " .. ht.player.stats[type])
@@ -82,12 +70,12 @@ function player.createHealth()
             physHealthPlot[i] = lume.round(math.sin(offset))
         end
         
-        imgui.Image(player.images.heartGreen, 32, 32)
+        imgui.Image(ht.data.images.heartGreen, 32, 32)
         imgui.SameLine()
         imgui.Text("Mental Health: " .. ht.player.health.mental .. "%%")
         imgui.PlotLines("", mentHealthPlot, #mentHealthPlot, 0, "", 0, 1, 340, 32)
         
-        imgui.Image(player.images.heartRed, 32, 32)
+        imgui.Image(ht.data.images.heartRed, 32, 32)
         imgui.SameLine()
         imgui.Text("Physical Health: " .. ht.player.health.physical .. "%%")
         imgui.PlotLines("", physHealthPlot, #physHealthPlot, 0, "", 0, 1, 340, 32)
