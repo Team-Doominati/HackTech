@@ -9,6 +9,7 @@ function ICE:initialize()
     self.integrity = 100
     self.shield = 0
     self.selected = false
+    self.analyzed = false
     self.alerted = false
     self.image = ht.data.images.ICE
 end

@@ -17,6 +17,7 @@ cam = camera(dgl.drawing.width / 2, dgl.drawing.height / 2)
 math.randomseed(os.time())
 
 function love.load()
+    gui.setStyle()
     ht.data.load()
     ht.deck.initialize()
     Mission.generate(1)
@@ -37,6 +38,7 @@ function love.draw()
     gui.deck.update()
     gui.mission.update()
     gui.system.update()
+    gui.target.update()
     gui.log.update()
     
     cam:attach()
@@ -80,6 +82,10 @@ function love.keypressed(key, isRepeat)
     end
     
     if key == "f5" then
+        gui.toggle(gui.target)
+    end
+    
+    if key == "f6" then
         gui.toggle(gui.log)
     end
     
