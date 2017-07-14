@@ -35,7 +35,7 @@ function ICE:update()
     local x, y = cam:worldCoords(love.mouse.getPosition())
     local width, height = self.image:getWidth(), self.image:getHeight()
     
-    if not love.mouse.isDown(2) and
+    if not love.mouse.isDown(2) and not imgui.GetWantCaptureMouse() and
        x >= self.x - width / 2 and x <= self.x + width / 2 and
        y >= self.y - height / 2 and y <= self.y + height / 2 then
         if not self.selected then
@@ -47,7 +47,8 @@ function ICE:update()
         self.selected = false
     end
     
-    if ht.system.target ~= self and self.selected and love.mouse.isDown(1) then
+    if ht.system.target ~= self and not imgui.GetWantCaptureMouse() and
+       self.selected and love.mouse.isDown(1) then
         ht.system.target = self
         ht.data.sounds.target:play()
     end
