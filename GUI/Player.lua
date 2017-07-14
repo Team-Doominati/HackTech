@@ -49,7 +49,7 @@ function player.createRep()
     if imgui.CollapsingHeader("Reputation", { "DefaultOpen" }) then
         imgui.Text("Level: " .. ht.player.rep.level)
         imgui.Text("XP: " .. ht.player.rep.XP .. " / " .. ht.player.getRepNext())
-        imgui.ProgressBar(dgl.math.percent(ht.player.rep.XP, ht.player.getRepNext()))
+        imgui.ProgressBar(dgl.math.percent(ht.player.rep.XP, ht.player.getRepNext()) / 100)
     end
 end
 
@@ -110,12 +110,12 @@ function player.createHealth()
         
         imgui.Image(ht.data.images.heartGreen, 32, 32)
         imgui.SameLine()
-        imgui.Text("Mental Health: " .. ht.player.health.mental .. "%%")
+        imgui.Text("Mental Health\n" .. ht.player.health.mental .. " / " .. ht.player.health.mentalMax .. " (" .. dgl.math.percent(ht.player.health.mental, ht.player.health.mentalMax) .. "%%)")
         imgui.Image(player.mentalHealthCanvas, player.mentalHealthCanvas:getWidth(), player.mentalHealthCanvas:getHeight())
         
         imgui.Image(ht.data.images.heartRed, 32, 32)
         imgui.SameLine()
-        imgui.Text("Physical Health: " .. ht.player.health.physical .. "%%")
+        imgui.Text("Physical Health\n" .. ht.player.health.physical .. " / " .. ht.player.health.physicalMax .. " (" .. dgl.math.percent(ht.player.health.physical, ht.player.health.physicalMax) .. "%%)")
         imgui.Image(player.physicalHealthCanvas, player.physicalHealthCanvas:getWidth(), player.physicalHealthCanvas:getHeight())
     end
 end

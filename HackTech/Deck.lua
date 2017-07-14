@@ -1,5 +1,23 @@
 local deck =
 {
+    integrity =
+    {
+        current = 100,
+        max = 100
+    },
+    
+    armor =
+    {
+        flat = 0,
+        percent = 0
+    },
+    
+    shield =
+    {
+        current = 0,
+        max = 0
+    },
+    
     stats =
     {
         power = 0,

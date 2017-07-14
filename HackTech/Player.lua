@@ -26,7 +26,9 @@ local player =
     health =
     {
         mental = 100,
-        physical = 100
+        mentalMax = 100,
+        physical = 100,
+        physicalMax = 100
     },
     
     credits = 0,
