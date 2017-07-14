@@ -7,7 +7,7 @@ gui.system =  require "GUI/System"
 gui.log =     require "GUI/Log"
 
 function gui.toggle(type, noSound)
-    sound = noSound or false
+    noSound = noSound or false
     
     type.visible = not type.visible
     
