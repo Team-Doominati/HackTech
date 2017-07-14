@@ -3,13 +3,8 @@ local deck =
     integrity =
     {
         current = 100,
-        max = 100
-    },
-    
-    armor =
-    {
-        flat = 0,
-        percent = 0
+        max = 100,
+        armor = 0
     },
     
     shield =

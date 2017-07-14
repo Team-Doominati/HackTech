@@ -1,7 +1,82 @@
 local deck =
 {
-    visible = true
+    visible = true,
+    
+    integrityCanvas = love.graphics.newCanvas(380, 32),
+    shieldCanvas = love.graphics.newCanvas(380, 32)
 }
+
+function deck.createIntegrity()
+    local function drawIntegrityGraph()
+        local percent = dgl.math.percent(ht.deck.integrity.current, ht.deck.integrity.max)
+        
+        love.graphics.setCanvas(deck.integrityCanvas)
+        love.graphics.clear(unpack(dgl.color.transparent))
+        
+        if percent >= 75 then
+            love.graphics.setColor(unpack(dgl.color.green))
+        elseif percent >= 50 and percent <= 74 then
+            love.graphics.setColor(unpack(dgl.color.yellow))
+        elseif percent >= 25 and percent <= 49 then
+            love.graphics.setColor(unpack(dgl.color.orange))
+        elseif percent < 25 then
+            love.graphics.setColor(unpack(dgl.color.red))
+        end
+        
+        love.graphics.setPointSize(percent * 0.04)
+        
+        for x = 1, love.graphics.getCanvas():getWidth() do
+            love.graphics.points(x, 15 + math.sin(x / 10 + (timer * (20 - (percent * 0.16)))) * 12)
+            love.graphics.points(x, 15 + math.cos(x / 10 + (timer * (20 - (percent * 0.16)) + 96)) * 12)
+        end
+        
+        love.graphics.setPointSize(1)
+        love.graphics.setColor(unpack(dgl.color.white))
+        love.graphics.setCanvas()
+    end
+    
+    local function drawShieldGraph()
+        local percent = dgl.math.percent(ht.deck.shield.current, ht.deck.shield.max)
+        
+        love.graphics.setCanvas(deck.shieldCanvas)
+        love.graphics.clear(unpack(dgl.color.transparent))
+        love.graphics.setColor(unpack(dgl.color.cyan))
+        love.graphics.setPointSize(percent * 0.04)
+        
+        if ht.deck.shield.current > 0 then
+            for x = 1, love.graphics.getCanvas():getWidth() do
+                love.graphics.points(x, 16 + math.sin(timer + x) * 15)
+            end
+        end
+        
+        love.graphics.setPointSize(1)
+        love.graphics.setColor(unpack(dgl.color.white))
+        love.graphics.setCanvas()
+    end
+    
+    if imgui.CollapsingHeader("Integrity", { "DefaultOpen" }) then
+        drawIntegrityGraph()
+        drawShieldGraph()
+        
+        imgui.Image(ht.data.images.integrity, 32, 32)
+        imgui.SameLine()
+        imgui.Text("Deck Integrity\n" .. ht.deck.integrity.current .. " / " .. ht.deck.integrity.max .. " (" .. math.ceil(dgl.math.percent(ht.deck.integrity.current, ht.deck.integrity.max)) .. "%%)")
+        imgui.Image(deck.integrityCanvas, deck.integrityCanvas:getWidth(), deck.integrityCanvas:getHeight())
+        
+        imgui.Image(ht.data.images.armor, 32, 32)
+        imgui.SameLine()
+        imgui.Text("Deck Integrity Armor: " .. ht.deck.integrity.armor)
+        
+        imgui.Image(ht.data.images.shield, 32, 32)
+        imgui.SameLine()
+        if ht.deck.shield.max == 0 then
+            imgui.Text("Deck Shield\nNone")
+        else
+            imgui.Text("Deck Shield\n" .. ht.deck.shield.current .. " / " .. ht.deck.shield.max .. " (" .. math.ceil(dgl.math.percent(ht.deck.shield.current, ht.deck.shield.max)) .. "%%)")
+        end
+        imgui.Image(deck.shieldCanvas, deck.shieldCanvas:getWidth(), deck.shieldCanvas:getHeight())
+    end
+end
 
 function deck.createStats()
     if imgui.CollapsingHeader("Stats", { "DefaultOpen" }) then
@@ -160,6 +235,7 @@ function deck.update()
     imgui.SetNextWindowSize(400, 360)
     status, deck.visible = imgui.Begin("Deck", true, { "NoResize" })
     
+    deck.createIntegrity()
     deck.createStats()
     deck.createHardware()
     deck.createSoftware()
