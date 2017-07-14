@@ -55,21 +55,23 @@ end
 
 function player.createHealth()
     local function drawMentalEKG()
+        local percent = dgl.math.percent(ht.player.health.mental, ht.player.health.mentalMax)
+        
         love.graphics.setCanvas(player.mentalHealthCanvas)
         love.graphics.clear(unpack(dgl.color.transparent))
         
-        if ht.player.health.mental >= 75 then
+        if percent >= 75 then
             love.graphics.setColor(unpack(dgl.color.green))
-        elseif ht.player.health.mental >= 50 and ht.player.health.mental <= 74 then
+        elseif percent >= 50 and percent <= 74 then
             love.graphics.setColor(unpack(dgl.color.yellow))
-        elseif ht.player.health.mental >= 25 and ht.player.health.mental <= 49 then
+        elseif percent >= 25 and percent <= 49 then
             love.graphics.setColor(unpack(dgl.color.orange))
-        elseif ht.player.health.mental < 25 then
+        elseif percent < 25 then
             love.graphics.setColor(unpack(dgl.color.red))
         end
         
         for x = 1, love.graphics.getCanvas():getWidth() do
-            love.graphics.points(x, 15 + math.sin(x / 10 + (timer * (20 - (ht.player.health.mental * 0.16)))) * 15)
+            love.graphics.points(x, 15 + math.sin(x / 10 + (timer * (20 - (percent * 0.16)))) * 15)
         end
         
         love.graphics.setColor(unpack(dgl.color.white))
@@ -77,19 +79,20 @@ function player.createHealth()
     end
     
     local function drawPhysicalEKG()
-        local gap = 30 + ht.player.health.physical * 0.6
+        local percent = dgl.math.percent(ht.player.health.physical, ht.player.health.physicalMax)
+        local gap = 30 + percent * 0.6
         local offset = -((timer * 10) % gap * 4)
         
         love.graphics.setCanvas(player.physicalHealthCanvas)
         love.graphics.clear(unpack(dgl.color.transparent))
         
-        if ht.player.health.physical >= 75 then
+        if percent >= 75 then
             love.graphics.setColor(unpack(dgl.color.green))
-        elseif ht.player.health.physical >= 50 and ht.player.health.physical <= 74 then
+        elseif percent >= 50 and percent <= 74 then
             love.graphics.setColor(unpack(dgl.color.yellow))
-        elseif ht.player.health.physical >= 25 and ht.player.health.physical <= 49 then
+        elseif percent >= 25 and percent <= 49 then
             love.graphics.setColor(unpack(dgl.color.orange))
-        elseif ht.player.health.physical < 25 then
+        elseif percent < 25 then
             love.graphics.setColor(unpack(dgl.color.red))
         end
         
@@ -110,12 +113,12 @@ function player.createHealth()
         
         imgui.Image(ht.data.images.heartGreen, 32, 32)
         imgui.SameLine()
-        imgui.Text("Mental Health\n" .. ht.player.health.mental .. " / " .. ht.player.health.mentalMax .. " (" .. dgl.math.percent(ht.player.health.mental, ht.player.health.mentalMax) .. "%%)")
+        imgui.Text("Mental Health\n" .. ht.player.health.mental .. " / " .. ht.player.health.mentalMax .. " (" .. math.ceil(dgl.math.percent(ht.player.health.mental, ht.player.health.mentalMax)) .. "%%)")
         imgui.Image(player.mentalHealthCanvas, player.mentalHealthCanvas:getWidth(), player.mentalHealthCanvas:getHeight())
         
         imgui.Image(ht.data.images.heartRed, 32, 32)
         imgui.SameLine()
-        imgui.Text("Physical Health\n" .. ht.player.health.physical .. " / " .. ht.player.health.physicalMax .. " (" .. dgl.math.percent(ht.player.health.physical, ht.player.health.physicalMax) .. "%%)")
+        imgui.Text("Physical Health\n" .. ht.player.health.physical .. " / " .. ht.player.health.physicalMax .. " (" .. math.ceil(dgl.math.percent(ht.player.health.physical, ht.player.health.physicalMax)) .. "%%)")
         imgui.Image(player.physicalHealthCanvas, player.physicalHealthCanvas:getWidth(), player.physicalHealthCanvas:getHeight())
     end
 end

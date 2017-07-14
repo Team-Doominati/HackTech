@@ -63,10 +63,6 @@ function love.keypressed(key, isRepeat)
         love.event.quit()
     end
     
-    if key == "`" then
-        gui.toggle(dgl.console)
-    end
-    
     if key == "f1" then
         gui.toggle(gui.player)
     end

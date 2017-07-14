@@ -82,6 +82,13 @@ function player.upgradeStat(type)
     if player.canUpgradeStat(type) then
         player.stats.points = player.stats.points - (player.stats[type] + 1)
         player.stats[type] = player.stats[type] + 1
+        
+        if type == "defense" then
+            player.health.mental = player.health.mental + 10
+            player.health.mentalMax = player.health.mentalMax + 10
+            player.health.physical = player.health.physical + 10
+            player.health.physicalMax = player.health.physicalMax + 10
+        end
     end
 end
 
