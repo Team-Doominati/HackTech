@@ -2,9 +2,6 @@ local system =
 {
     connected = false,
     
-    wait = false,
-    waitTimer = 0,
-    
     level = 1,
     
     nodes = {},
@@ -14,6 +11,7 @@ local system =
     currentNode = 1,
     cleared = 0,
     turn = 1,
+    timer = 0,
     
     target = nil,
     
@@ -228,35 +226,27 @@ function system.update(dt)
         node:update()
     end
     
-    if system.waitTimer > 0 then
-        system.waitTimer = system.waitTimer - dt
+    if system.isWaiting() then
+        coroutine.resume(system.doTurn)
+        system.timer = system.timer - dt
     end
 end
 
 function system.keypressed(key)
-    if not system.connected and not system.wait then return end
-    
-    if key == "space" then
-        system.move()
-    end
+    if not system.connected then return end
     
     if key == "lctrl" then
         system.getCurrentNode():center()
     end
-end
-
-function system.move()
-    if system.currentNode < #system.nodes and system.getCurrentNode().cleared then
-        system.currentNode = system.currentNode + 1
-        
-        if system.currentNode > system.cleared then
-            system.cleared = system.currentNode
+    
+    if not system.isWaiting() then
+        if key == "space" then
+            system.move()
         end
         
-        system.getCurrentNode():center()
-        ht.data.sounds.move:play()
-        
-        system.turn = system.turn + 1
+        if key == "w" then
+            system.waitTurn()
+        end
     end
 end
 
@@ -276,6 +266,14 @@ function system.getCurrentNode()
     return system.nodes[system.currentNode]
 end
 
+function system.isWaiting()
+    if system.doTurn == nil then
+        return false
+    else
+        return coroutine.status(system.doTurn) ~= "dead"
+    end
+end
+
 function system.setAlert(level)
     system.alert = level
     
@@ -284,6 +282,52 @@ function system.setAlert(level)
     elseif system.alert == "active" then
     elseif system.alert == "shutdown" then
     end
+end
+
+function system.startTurn()
+    system.doTurn = coroutine.create(system._doTurn)
+    
+    coroutine.resume(system.doTurn)
+end
+
+function system._doTurn()
+    --[[
+          TODO: Turn order logic
+        - Turn increment
+        - Node/ICE-affecting program expiration check (silence, virus, etc)
+        - Player program run/continue (scan, crackers, etc)
+        - File transfer progress (download, etc)
+        - ICE spot check (if not alerted)
+        - ICE attack (if alerted)
+        - Player action
+    --]]
+    
+    system.turn = system.turn + 1
+    
+    system.timer = 1
+    
+    while system.timer > 0 do
+        coroutine.yield()
+    end
+end
+
+function system.move()
+    if system.currentNode < #system.nodes and system.getCurrentNode().cleared then
+        system.currentNode = system.currentNode + 1
+        
+        if system.currentNode > system.cleared then
+            system.cleared = system.currentNode
+        end
+        
+        system.getCurrentNode():center()
+        ht.data.sounds.move:play()
+        
+        system.startTurn()
+    end
+end
+
+function system.waitTurn()
+    system.startTurn()
 end
 
 function system.connect()
