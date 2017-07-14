@@ -116,9 +116,9 @@ local data =
         },
         
         {
-            { "Shield", "shield" },
-            { "Armor", "armor" },
             { "Plating", "plating" },
+            { "Armor", "armor" },
+            { "Shield", "shield" },
             { "Medic", "medic" },
             { "Maintain", "maintain" },
             { "Regen", "regen" },

@@ -89,9 +89,9 @@ Many attack program types can also have an area variant, which affects every ICE
 
 ### Defense
 
-* **Shield** - A shield which protects your deck integrity
+* **Plating** - Increases your deck's maximum integrity
 * **Armor** - Provides a flat damage reduction to attacks hitting your integrity
-* **Plating** - Provides a percentage damage reduction to attacks hitting your integrity
+* **Shield** - A shield which protects your deck integrity
 * **Medic** - Repairs deck integrity
 * **Maintain** - Repairs shield
 * **Regen** - Passively regenerates deck integrity
