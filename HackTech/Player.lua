@@ -2,6 +2,14 @@ local player =
 {
     name = "Hacker",
     
+    health =
+    {
+        mental = 100,
+        mentalMax = 100,
+        physical = 100,
+        physicalMax = 100
+    },
+    
     stats =
     {
         level = 0,
@@ -21,14 +29,6 @@ local player =
     {
         level = 0,
         XP = 0,
-    },
-    
-    health =
-    {
-        mental = 100,
-        mentalMax = 100,
-        physical = 100,
-        physicalMax = 100
     },
     
     credits = 0,

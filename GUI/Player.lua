@@ -6,53 +6,6 @@ local player =
     physicalHealthCanvas = love.graphics.newCanvas(340, 32)
 }
 
-function player.createStats()
-    local stats =
-    {
-        "Attack",
-        "Defense",
-        "Stealth",
-        "Analysis",
-        "Programming",
-        "Engineering",
-        "Negotiation"
-    }
-    
-    if imgui.CollapsingHeader("Stats", { "DefaultOpen" }) then
-        imgui.Text("Level: " .. ht.player.stats.level)
-        imgui.Text("XP: " .. ht.player.stats.XP .. " / " .. ht.player.getLevelNext())
-        imgui.ProgressBar(dgl.math.percent(ht.player.stats.XP, ht.player.getLevelNext()))
-        imgui.Text("Stat Points: " .. ht.player.stats.points)
-        imgui.Separator()
-        
-        for i, stat in pairs(stats) do
-            local type = string.lower(stat)
-            
-            imgui.Image(ht.data.images.placeholder, 32, 32)
-            imgui.SameLine()
-            imgui.AlignFirstTextHeightToWidgets()
-            imgui.Text(stat .. ": " .. ht.player.stats[type])
-            
-            if ht.player.canUpgradeStat(type) then
-                imgui.SameLine()
-                
-                if imgui.Button("Upgrade " .. stat) then
-                    ht.player.upgradeStat(type)
-                    ht.data.sounds.upgradeStat:play()
-                end
-            end
-        end
-    end
-end
-
-function player.createRep()
-    if imgui.CollapsingHeader("Reputation", { "DefaultOpen" }) then
-        imgui.Text("Level: " .. ht.player.rep.level)
-        imgui.Text("XP: " .. ht.player.rep.XP .. " / " .. ht.player.getRepNext())
-        imgui.ProgressBar(dgl.math.percent(ht.player.rep.XP, ht.player.getRepNext()) / 100)
-    end
-end
-
 function player.createHealth()
     local function drawMentalEKG()
         local percent = dgl.math.percent(ht.player.health.mental, ht.player.health.mentalMax)
@@ -123,6 +76,53 @@ function player.createHealth()
     end
 end
 
+function player.createStats()
+    local stats =
+    {
+        "Attack",
+        "Defense",
+        "Stealth",
+        "Analysis",
+        "Programming",
+        "Engineering",
+        "Negotiation"
+    }
+    
+    if imgui.CollapsingHeader("Stats", { "DefaultOpen" }) then
+        imgui.Text("Level: " .. ht.player.stats.level)
+        imgui.Text("XP: " .. ht.player.stats.XP .. " / " .. ht.player.getLevelNext())
+        imgui.ProgressBar(dgl.math.percent(ht.player.stats.XP, ht.player.getLevelNext()))
+        imgui.Text("Stat Points: " .. ht.player.stats.points)
+        imgui.Separator()
+        
+        for i, stat in pairs(stats) do
+            local type = string.lower(stat)
+            
+            imgui.Image(ht.data.images.placeholder, 32, 32)
+            imgui.SameLine()
+            imgui.AlignFirstTextHeightToWidgets()
+            imgui.Text(stat .. ": " .. ht.player.stats[type])
+            
+            if ht.player.canUpgradeStat(type) then
+                imgui.SameLine()
+                
+                if imgui.Button("Upgrade " .. stat) then
+                    ht.player.upgradeStat(type)
+                    ht.data.sounds.upgradeStat:play()
+                end
+            end
+        end
+    end
+end
+
+function player.createRep()
+    if imgui.CollapsingHeader("Reputation", { "DefaultOpen" }) then
+        imgui.Text("Level: " .. ht.player.rep.level)
+        imgui.Text("XP: " .. ht.player.rep.XP .. " / " .. ht.player.getRepNext())
+        imgui.ProgressBar(dgl.math.percent(ht.player.rep.XP, ht.player.getRepNext()) / 100)
+    end
+end
+
 function player.createMoney()
     if imgui.CollapsingHeader("Money", { "DefaultOpen" }) then
         imgui.Text("Credits: " .. ht.player.credits .. " C")
@@ -163,9 +163,9 @@ function player.update()
     imgui.SetNextWindowSize(360, 360)
     status, player.visible = imgui.Begin(ht.player.name, true, { "NoResize" })
     
+    player.createHealth()
     player.createStats()
     player.createRep()
-    player.createHealth()
     player.createMoney()
     
     imgui.End()
