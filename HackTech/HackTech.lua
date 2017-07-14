@@ -11,6 +11,7 @@ require "HackTech/Mission"
 require "HackTech/Node"
 require "HackTech/File"
 require "HackTech/Software"
+require "HackTech/ICE"
 
 -- Globals
 ht.day = 1

@@ -84,9 +84,19 @@ function Node:draw()
         love.graphics.setColor(nodeColor[1], nodeColor[2], nodeColor[3], 64)
         love.graphics.circle("fill", self.x, self.y, size, 8)
     end
+    
+    love.graphics.setColor(unpack(dgl.color.white))
+    
+    for i, ICE in ipairs(self.ICE) do
+        ICE:draw()
+    end
 end
 
 function Node:update()
+    for i, ICE in ipairs(self.ICE) do
+        ICE:update()
+    end
+    
     if #self.ICE == 0 then -- Temporary check, later it should iterate ICE and check if they are clear as well
         self.cleared = true
     end
@@ -107,6 +117,19 @@ end
 
 function Node:activate()
     self.activated = true
+end
+
+function Node:generateICE()
+    local amount = 1 -- math.random(1, 2)
+    
+    for i = 1, amount do
+        local ICE = ICE:new()
+        
+        ICE.x = self.x
+        ICE.y = self.y
+        
+        table.insert(self.ICE, ICE)
+    end
 end
 
 function Node:generateFiles()

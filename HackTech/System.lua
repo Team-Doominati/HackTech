@@ -168,6 +168,12 @@ function system.create(level, maxNodes, maxDS, maxIOP)
         modifyNode(system.nodes[#system.nodes], "CPU")
     end
     
+    local function placeICE()
+        for i, node in ipairs(system.nodes) do
+            node:generateICE()
+        end
+    end
+    
     system.clear()
     
     system.level = level
@@ -178,6 +184,7 @@ function system.create(level, maxNodes, maxDS, maxIOP)
     placeIOP()
     placeSM()
     placeCPU()
+    placeICE()
     
     system.nodes[1]:center()
     
