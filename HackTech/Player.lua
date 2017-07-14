@@ -40,15 +40,7 @@ local player =
         fine = 0
     },
     
-    mission =
-    {
-        accepted = false,
-        type = "",
-        description = "",
-        company = "",
-        level = 0,
-        payment = 0
-    },
+    mission = {},
     
     project =
     {
@@ -93,26 +85,6 @@ end
 
 function player.canUpgradeStat(type)
     return player.stats.points >= player.stats[type] + 1
-end
-
-function player.acceptMission(mission)
-    player.mission.accepted = true
-    player.mission.type = ht.missions[mission].type
-    player.mission.description = ht.missions[mission].description
-    player.mission.company = ht.missions[mission].company
-    player.mission.level = ht.missions[mission].level
-    player.mission.payment = ht.missions[mission].payment
-    
-    table.remove(ht.missions, mission)
-end
-
-function player.clearMission()
-    player.mission.accepted = false
-    player.mission.type = ""
-    player.mission.description = ""
-    player.mission.company = ""
-    player.mission.level = 0
-    player.mission.payment = 0
 end
 
 function player.startProject(type, level)

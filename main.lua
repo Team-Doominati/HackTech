@@ -14,8 +14,6 @@ gui =    require "GUI/GUI"
 timer = 0
 cam = camera(dgl.drawing.width / 2, dgl.drawing.height / 2)
 
-dgl.console.print("HackTech initialized!", "info")
-
 math.randomseed(os.time())
 
 function love.load()
@@ -29,14 +27,16 @@ function love.quit()
 end
 
 function love.draw()
+    love.graphics.setBackgroundColor(unpack(dgl.color.black))
+    
     local width, height = love.graphics.getDimensions()
     love.graphics.scale(width / dgl.drawing.width, height / dgl.drawing.height)
     love.graphics.scale(camera.sx, camera.sy)
     
-    dgl.console.update()
     gui.player.update()
     gui.deck.update()
     gui.mission.update()
+    gui.system.update()
     gui.log.update()
     
     cam:attach()
@@ -75,17 +75,16 @@ function love.keypressed(key, isRepeat)
         gui.toggle(gui.deck)
     end
     
-    if key == "f3" then
+    if key == "f3" and ht.player.mission ~= nil and not ht.player.mission.accepted then
         gui.toggle(gui.mission)
+    end
+    
+    if key == "f4" then
+        gui.toggle(gui.system)
     end
     
     if key == "f5" then
         gui.toggle(gui.log)
-    end
-    
-    if key == "f6" then
-        ht.system.create()
-        ht.system.connected = true
     end
     
     if key == "f7" then
@@ -146,3 +145,5 @@ function love.textinput(text)
     if not imgui.GetWantCaptureKeyboard() then
     end
 end
+
+debugger = require "Lib/Debugger" ()

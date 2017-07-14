@@ -9,6 +9,7 @@ ht.system = require "HackTech/System"
 -- Classes
 require "HackTech/Mission"
 require "HackTech/Node"
+require "HackTech/File"
 require "HackTech/Software"
 
 -- Globals

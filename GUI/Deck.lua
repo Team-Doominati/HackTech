@@ -114,7 +114,6 @@ function deck.createSoftware()
                     end
                     
                     local state = "Load"
-                    print(ht.deck.software.attack)
                     if ht.deck.software[type[2]].loaded then
                         state = "Unload"
                     end

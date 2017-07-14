@@ -157,6 +157,11 @@ local data =
             { "Boost Stealth (Active)", "boostActiveStealth" },
             { "Boost Analysis (Active)", "boostActiveAnalysis" }
         }
+    },
+    
+    filename =
+    {
+        "Test File"
     }
 }
 

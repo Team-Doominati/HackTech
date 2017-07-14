@@ -17,14 +17,14 @@ local system =
     
     target = nil,
     
-    nodeOffset = 512,
+    nodeOffset = 512
 }
 
-function system.create(level, maxJ, maxDS, maxIOP)
+function system.create(level, maxNodes, maxDS, maxIOP)
     level = level or 1
-    maxJ = maxJ or 10
-    maxDS = maxDS or 2
-    maxIOP = maxIOP or 2
+    maxNodes = maxNodes or 10
+    maxDS = maxDS or 1
+    maxIOP = maxIOP or 1
     
     local x, y, id = dgl.drawing.width / 2, dgl.drawing.height / 2, 1
     
@@ -106,6 +106,10 @@ function system.create(level, maxJ, maxDS, maxIOP)
         node.name = type .. "-" .. node.id
         node.type = type
         node.security = security
+        
+        if type == "DS" then
+            node:generateFiles()
+        end
     end
     
     local function placeAP()
@@ -115,7 +119,7 @@ function system.create(level, maxJ, maxDS, maxIOP)
     local function placeJ()
         local current = 0
         
-        while current < maxJ do
+        while current < maxNodes do
             createNode("J")
             current = current + 1
         end
@@ -168,6 +172,8 @@ function system.create(level, maxJ, maxDS, maxIOP)
     
     system.clear()
     
+    system.level = level
+    
     placeAP()
     placeJ()
     placeDS()
@@ -181,7 +187,7 @@ function system.create(level, maxJ, maxDS, maxIOP)
         gui.log.add("Node " .. node.name .. " found", "info")
     end
     
-    dgl.console.print("Generated level " .. level .. " system with " .. #system.nodes .. " nodes", "info")
+    print("Generated level " .. level .. " system with " .. #system.nodes .. " nodes")
 end
 
 function system.draw()
@@ -254,6 +260,18 @@ function system.move()
     end
 end
 
+function system.getNodes(type)
+    local nodes = {}
+    
+    for i, node in ipairs(system.nodes) do
+        if node.type == type then
+            table.insert(nodes, node)
+        end
+    end
+    
+    return nodes
+end
+
 function system.getCurrentNode()
     return system.nodes[system.currentNode]
 end
@@ -266,6 +284,17 @@ function system.setAlert(level)
     elseif system.alert == "active" then
     elseif system.alert == "shutdown" then
     end
+end
+
+function system.connect()
+    system.connected = true
+    system.nodes[1]:center()
+end
+
+function system.disconnect()
+    system.connected = false
+    system.currentNode = 1
+    system.turn = 1
 end
 
 function system.clear()

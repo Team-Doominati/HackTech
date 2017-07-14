@@ -8,6 +8,7 @@ function Node:initialize()
     self.type = "none"
     self.security = "none"
     self.ICE = {}
+    self.files = {}
     self.cleared = false
     self.activated = false
     self.objective = false
@@ -102,4 +103,16 @@ function Node:center()
         function()
             ht.system.wait = false
         end)
+end
+
+function Node:activate()
+    self.activated = true
+end
+
+function Node:generateFiles()
+    local amount = 10 + math.random(1, 10)
+    
+    for i = 1, amount do
+        table.insert(self.files, File:new())
+    end
 end

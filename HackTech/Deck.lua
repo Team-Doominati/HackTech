@@ -32,7 +32,7 @@ local deck =
         CPU = { 1 },
         SPU = { 4 },
         RAM = { 4 },
-        storage = { 4 },
+        storage = { 8 },
         network = { 1 },
         expansion = {}
     },

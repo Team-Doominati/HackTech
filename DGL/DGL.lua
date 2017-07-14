@@ -11,6 +11,6 @@ dgl.drawing =  require "DGL/Drawing"
 dgl.input =    require "DGL/Input"
 
 -- GUI
-dgl.console =  require "DGL/Console"
+-- dgl.console =  require "DGL/Console"
 
 return dgl
