@@ -1,4 +1,6 @@
 HackTech
----
+========
 
-![HAX](http://orig05.deviantart.net/6ae4/f/2009/159/d/d/hax_by_imnotyourguy.gif)
+A hacking game inspired by the ideas and mechanics of games such as Shadowrun (P&P and Genesis), Decker and Uplink.
+
+![Preview](https://dl.dropboxusercontent.com/u/2321290/ShareX/2017/07/2017-07-14_19-50-50.png)
