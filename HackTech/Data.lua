@@ -212,13 +212,11 @@ function data.load()
                 end
             end
             
-            --[[
             if loaded then
                 print("Loading " .. path)
             else
                 print("Error loading " .. path .. ": unknown resource type!")
             end
-            --]]
         end
     end
 end
