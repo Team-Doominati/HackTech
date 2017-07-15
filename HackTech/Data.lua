@@ -206,6 +206,8 @@ function data.load()
                         local split = lume.split(path, '/')
                         local name = lume.split(split[#split], '.')[1]
                         
+                        print("Loading " .. path .. "...")
+                        
                         loaders[k](path, name)
                         loaded = true
                     end
@@ -213,7 +215,7 @@ function data.load()
             end
             
             if loaded then
-                print("Loading " .. path)
+                print(path .. " loaded")
             else
                 print("Error loading " .. path .. ": unknown resource type!")
             end

@@ -7,17 +7,13 @@ gui.system =  require "GUI/System"
 gui.target =  require "GUI/Target"
 gui.log =     require "GUI/Log"
 
-function gui.toggle(type, noSound)
-    noSound = noSound or false
-    
+function gui.toggle(type)
     type.visible = not type.visible
     
-    if not noSound then
-        if type.visible then
-            ht.data.sounds.GUIOpen:play()
-        else
-            ht.data.sounds.GUIClose:play()
-        end
+    if type.visible then
+        ht.data.sounds.GUIOpen:play()
+    else
+        ht.data.sounds.GUIClose:play()
     end
 end
 

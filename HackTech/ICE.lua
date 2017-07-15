@@ -39,7 +39,7 @@ function ICE:update()
        x >= self.x - width / 2 and x <= self.x + width / 2 and
        y >= self.y - height / 2 and y <= self.y + height / 2 then
         if not self.selected then
-            ht.data.sounds.hover:play()
+            ht.data.sounds.ICEHover:play()
         end
         
         self.selected = true
@@ -50,6 +50,6 @@ function ICE:update()
     if ht.system.target ~= self and not imgui.GetWantCaptureMouse() and
        self.selected and love.mouse.isDown(1) then
         ht.system.target = self
-        ht.data.sounds.target:play()
+        ht.data.sounds.ICETarget:play()
     end
 end

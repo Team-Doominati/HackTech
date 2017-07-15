@@ -1,6 +1,6 @@
 local target =
 {
-    visible = true
+    visible = false
 }
 
 function target.update()

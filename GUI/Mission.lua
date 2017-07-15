@@ -25,7 +25,7 @@ function mission.update()
     
     if selected > 0 then
         Mission.accept(selected)
-        gui.toggle(mission, true)
+        mission.visible = false
         ht.data.sounds.missionAccept:play()
     end
     

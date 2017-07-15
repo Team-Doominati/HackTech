@@ -327,7 +327,7 @@ function system.move()
         end
         
         system.getCurrentNode():center()
-        ht.data.sounds.move:play()
+        ht.data.sounds.systemMove:play()
         
         system.startTurn()
     end
@@ -340,12 +340,16 @@ end
 function system.connect()
     system.connected = true
     system.nodes[1]:center()
+    gui.target.visible = true
+    ht.data.sounds.systemConnect:play()
 end
 
 function system.disconnect()
     system.connected = false
     system.currentNode = 1
     system.turn = 1
+    gui.target.visible = false
+    ht.data.sounds.systemDisconnect:play()
 end
 
 function system.clear()

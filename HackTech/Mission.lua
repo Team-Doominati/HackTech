@@ -70,7 +70,12 @@ function Mission.accept(id)
 end
 
 function Mission.abandon()
-    ht.system.disconnect()
+    if ht.system.connected then
+        ht.system.disconnect()
+    end
+    
     ht.player.mission = {}
-    gui.toggle(gui.mission, true)
+    
+    gui.mission.visible = true
+    ht.data.sounds.missionFail:play()
 end
