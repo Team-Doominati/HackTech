@@ -133,24 +133,23 @@ function deck.createHardware()
         
         for i, type in pairs(hardware) do
             if imgui.CollapsingHeader(type[1] .. " (" .. #ht.deck.hardware[type[2]] .. "/" .. ht.deck.slots[type[2]] .. ")", { "DefaultOpen" }) then
-                imgui.NewLine()
-                
-                for j, slot in ipairs(ht.deck.hardware[type[2]]) do
-                    imgui.Image(ht.data.images.placeholder, 32, 32)
+                for j = 1, ht.deck.slots[type[2]] do
+                    local slot = ht.deck.hardware[type[2]][j]
                     
-                    if imgui.IsItemHovered() then
-                        imgui.SetTooltip(slot .. type[3])
-                    end
-                    
-                    if j % 8 == 0 then
-                        imgui.NewLine()
-                    else
+                    if slot == nil then
+                        imgui.Image(ht.data.images.placeholder, 32, 32)
+                        imgui.SetWindowFontScale(2.5)
                         imgui.SameLine()
+                        imgui.Text("Empty")
+                        imgui.SetWindowFontScale(1)
+                    else
+                        imgui.Image(ht.data.images.placeholder, 32, 32)
+                        imgui.SetWindowFontScale(2.5)
+                        imgui.SameLine()
+                        imgui.Text(slot .. type[3])
+                        imgui.SetWindowFontScale(1)
                     end
                 end
-                
-                imgui.NewLine()
-                imgui.NewLine()
             end
         end
         
@@ -175,26 +174,38 @@ function deck.createSoftware()
         for i, category in ipairs(categories) do
             if imgui.CollapsingHeader(category, { "DefaultOpen" }) then
                 imgui.Indent()
-                imgui.NewLine()
                 
                 for j, type in ipairs(ht.data.software[i]) do
-                    imgui.Image(ht.data.images.placeholder, 32, 32)
+                    local level = ht.deck.software[type[2]].level
+                    local loaded = ht.deck.software[type[2]].loaded
+                    local state = "Load"
                     
-                    if imgui.IsItemHovered() then
-                        if ht.deck.software[type[2]].level == 0 then
-                            imgui.SetTooltip(type[1])
-                        else
-                            imgui.SetTooltip(type[1] .. " " .. ht.deck.software[type[2]].level)
+                    imgui.Image(ht.data.images.placeholder, 32, 32)
+                    imgui.SetWindowFontScale(2.5)
+                    imgui.SameLine()
+                    if level == 0 then
+                        imgui.PushStyleColor("Text", dgl.color.gray[1] / 255, dgl.color.gray[2] / 255, dgl.color.gray[3] / 255, dgl.color.gray[4] / 255)
+                        imgui.TextWrapped(type[1])
+                        imgui.PopStyleColor()
+                    else
+                        if loaded then
+                            imgui.PushStyleColor("Text", dgl.color.green[1] / 255, dgl.color.green[2] / 255, dgl.color.green[3] / 255, dgl.color.green[4] / 255)
+                        end
+                        
+                        imgui.TextWrapped(type[1] .. " " .. ht.deck.software[type[2]].level)
+                        
+                        if loaded then
+                            imgui.PopStyleColor()
                         end
                     end
+                    imgui.SetWindowFontScale(1)
                     
-                    local state = "Load"
-                    if ht.deck.software[type[2]].loaded then
+                    if loaded then
                         state = "Unload"
                     end
                     
-                    if (ht.deck.software[type[2]].level > 0 or ht.player.stats.programming > 0) and imgui.BeginPopup("Software " .. type[1]) then
-                        if ht.deck.software[type[2]].level > 0 and imgui.Selectable(state .. " Program") then
+                    if (level > 0 or ht.player.stats.programming > 0) and imgui.BeginPopup("Software " .. type[1]) then
+                        if level > 0 and imgui.Selectable(state .. " Program") then
                             ht.deck.load(type[2])
                         end
                         
@@ -208,16 +219,8 @@ function deck.createSoftware()
                     if imgui.IsItemClicked(1) then
                         imgui.OpenPopup("Software " .. type[1])
                     end
-                    
-                    if j % 8 == 0 and j < #ht.data.software[i] then
-                        imgui.NewLine()
-                    else
-                        imgui.SameLine()
-                    end
                 end
                 
-                imgui.NewLine()
-                imgui.NewLine()
                 imgui.Unindent()
             end
         end
