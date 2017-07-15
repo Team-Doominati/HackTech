@@ -72,19 +72,19 @@ end
 
 function deck.update()
     deck.stats.power = 0
-    for i, v in ipairs(deck.hardware.CPU) do
-        deck.stats.power = deck.stats.power + v
+    for i, level in ipairs(deck.hardware.CPU) do
+        deck.stats.power = deck.stats.power + ht.data.hardware.CPU[level]
     end
     
     deck.stats.threads = 0
-    for i, v in ipairs(deck.hardware.SPU) do
-        deck.stats.threads = deck.stats.threads + v
+    for i, level in ipairs(deck.hardware.SPU) do
+        deck.stats.threads = deck.stats.threads + ht.data.hardware.SPU[level]
     end
     
     deck.stats.RAM = 0
     deck.usage.RAM = 0
-    for i, v in ipairs(deck.hardware.RAM) do
-        deck.stats.RAM = deck.stats.RAM + v
+    for i, level in ipairs(deck.hardware.RAM) do
+        deck.stats.RAM = deck.stats.RAM + ht.data.hardware.RAM[level]
     end
     for k, software in pairs(deck.software) do
         if software.loaded then
@@ -94,16 +94,16 @@ function deck.update()
     
     deck.stats.storage = 0
     deck.usage.storage = 0
-    for i, v in ipairs(deck.hardware.storage) do
-        deck.stats.storage = deck.stats.storage + v
+    for i, level in ipairs(deck.hardware.storage) do
+        deck.stats.storage = deck.stats.storage + ht.data.hardware.storage[level]
     end
     for k, software in pairs(deck.software) do
         deck.usage.storage = deck.usage.storage + software:getSize()
     end
     
     deck.stats.bandwidth = 0
-    for i, v in ipairs(deck.hardware.network) do
-        deck.stats.bandwidth = deck.stats.bandwidth + v
+    for i, level in ipairs(deck.hardware.network) do
+        deck.stats.bandwidth = deck.stats.bandwidth + ht.data.hardware.network[level]
     end
 end
 
