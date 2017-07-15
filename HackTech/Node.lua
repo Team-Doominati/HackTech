@@ -112,8 +112,10 @@ function Node:update()
         end
     end
     
-    if not self.cleared and clear >= #self.ICE then
+    if clear >= #self.ICE then
         self.cleared = true
+    else
+        self.cleared = false
     end
 end
 

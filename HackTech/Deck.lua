@@ -2,7 +2,7 @@ local deck =
 {
     integrity =
     {
-        current = 10,
+        current = 100,
         max = 100,
         armor = 0
     },
