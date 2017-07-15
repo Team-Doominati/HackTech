@@ -125,7 +125,13 @@ end
 
 function player.createMoney()
     if imgui.CollapsingHeader("Money", { "DefaultOpen" }) then
+        if ht.player.credits < 0 then
+            imgui.PushStyleColor("Text", dgl.color.red[1] / 255, dgl.color.red[2] / 255, dgl.color.red[3] / 255, dgl.color.red[4] / 255)
+        end
         imgui.Text("Credits: " .. ht.player.credits .. " C")
+        if ht.player.credits < 0 then
+            imgui.PopStyleColor()
+        end
         
         imgui.Separator()
         imgui.Indent()
@@ -162,6 +168,8 @@ function player.update()
     imgui.SetNextWindowPos(100, 100, { "FirstUseEver" })
     imgui.SetNextWindowSize(360, 360)
     status, player.visible = imgui.Begin(ht.player.name, true, { "NoResize" })
+    
+    imgui.Text("Day " .. ht.day)
     
     player.createHealth()
     player.createStats()

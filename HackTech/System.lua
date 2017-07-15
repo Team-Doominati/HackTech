@@ -439,6 +439,8 @@ function system.disconnect()
         ht.data.sounds.systemAlertStop:play()
         ht.data.sounds.systemAlertLoop:stop()
     end
+    
+    ht.player.advanceDay()
 end
 
 function system.clear()

@@ -4,9 +4,19 @@ local system =
 }
 
 function system.createCurrentMission()
+    local string = ""
+    
     imgui.Image(ht.data.images.placeholder, 32, 32)
     imgui.SameLine()
-    imgui.Text("Target: " .. ht.player.mission.company .. "\nType: " .. ht.player.mission.description .. "\nLevel: " .. ht.player.mission.level .. "\nPayment: " .. ht.player.mission.payment .. " C\nTurn: " .. ht.system.turn)
+    
+    string = string .. "Target: " .. ht.player.mission.company .. "\n"
+    string = string .. "Type: " .. ht.player.mission.description .. "\n"
+    string = string .. "Level: " .. ht.player.mission.level .. "\n"
+    string = string .. "Payment: " .. ht.player.mission.payment .. " C\n"
+    string = string .. "Days Left: " .. ht.player.mission.deadline - ht.day .. "\n"
+    string = string .. "Turn: " .. ht.system.turn
+    
+    imgui.Text(string)
     
     imgui.Indent(39)
     

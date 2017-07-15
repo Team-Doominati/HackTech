@@ -100,6 +100,26 @@ function player.startProject(type, level)
     -- tODO
 end
 
+function player.advanceDay()
+    ht.day = ht.day + 1
+    
+    if player.mission ~= nil and player.mission.accepted then
+        if player.mission.deadline == ht.day then
+            Mission.abandon()
+        end
+    end
+    
+    if player.getPaymentDays == 0 then
+        local payment = palyer.getTotalPayment()
+        
+        player.credits = player.credits - payment
+        
+        if player.credits <= -10000 then
+            -- TODO: Game over
+        end
+    end
+end
+
 function player.getLevelNext()
     return (player.stats.level + 1) * 100
 end

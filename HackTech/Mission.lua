@@ -6,6 +6,7 @@ function Mission:initialize(type, level)
     self.company = lume.randomchoice(ht.data.company)
     self.level = level or 1
     self.payment = self:calculatePayment()
+    self.deadline = ht.day + math.random(3, 5)
     self.accepted = false
     
     self.accepted = false
