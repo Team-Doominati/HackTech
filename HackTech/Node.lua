@@ -127,6 +127,7 @@ function Node:generateICE()
         
         ICE.x = self.x
         ICE.y = self.y
+        ICE.node = self
         
         table.insert(self.ICE, ICE)
     end

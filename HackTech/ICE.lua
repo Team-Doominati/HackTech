@@ -8,6 +8,7 @@ function ICE:initialize()
     self.level = 0
     self.integrity = 100
     self.shield = 0
+    self.node = nil
     self.selected = false
     self.analyzed = false
     self.alerted = false
@@ -47,9 +48,24 @@ function ICE:update()
         self.selected = false
     end
     
-    if ht.system.target ~= self and not imgui.GetWantCaptureMouse() and
+    if ht.system.target ~= self and ht.system.getCurrentNode() == self.node and not imgui.GetWantCaptureMouse() and
        self.selected and love.mouse.isDown(1) then
         ht.system.target = self
         ht.data.sounds.ICETarget:play()
     end
+end
+
+function File:getID()
+    local hex = { "A", "B", "C", "D", "E", "F" }
+    local id = ""
+    
+    for i = 1, 4 do
+        if math.random(1, 2) == 1 then
+            id = id .. lume.randomchoice(hex)
+        else
+            id = id .. tostring(math.random(0, 9))
+        end
+    end
+    
+    return id
 end
