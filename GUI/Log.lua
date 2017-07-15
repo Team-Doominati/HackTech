@@ -15,13 +15,13 @@ function log.add(text, type)
     
     if type == "normal" then
         message.color = dgl.color.white
-    elseif type == "warning" then
+    elseif type == "warning" or type == "yellow" then
         message.color = dgl.color.yellow
-    elseif type == "error" then
+    elseif type == "error" or type == "red" then
         message.color = dgl.color.red
-    elseif type == "info" then
+    elseif type == "info" or type == "green" then
         message.color = dgl.color.green
-    elseif type == "command" then
+    elseif type == "command" or type == "cyan" then
         message.color = dgl.color.cyan
     end
     

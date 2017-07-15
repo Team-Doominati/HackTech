@@ -198,14 +198,20 @@ end
 function system.draw()
     if not system.connected then return end
     
-    love.graphics.setBackgroundColor(dgl.color.darkGreen)
+    if system.alert == "none" then
+        love.graphics.setBackgroundColor(0, 32, 0)
+    elseif system.alert == "passive" then
+        love.graphics.setBackgroundColor(32 + (math.sin(timer) * 8), 32 + (math.sin(timer) * 8), 0)
+    elseif system.alert == "active" then
+        love.graphics.setBackgroundColor(32 + (math.sin(timer * 4) * 8), 0, 0)
+    end
     
     for i, node in pairs(system.nodes) do
         if node.next ~= nil then
             if i == system.currentNode and system.getCurrentNode().cleared then
                 love.graphics.setLineWidth(3 + (math.sin(timer * 4) * 2))
                 love.graphics.setColor(unpack(dgl.color.yellow))
-            elseif i <= system.cleared then
+            elseif i < system.cleared then
                 love.graphics.setLineWidth(3)
                 love.graphics.setColor(unpack(dgl.color.green))
             else
@@ -254,6 +260,24 @@ function system.keypressed(key)
         if key == "w" then
             system.waitTurn()
         end
+        
+        if key == "v" then
+            if ht.deck.software.analyze:run() then
+                system.startTurn()
+            end
+        end
+        
+        if key == "d" then
+            if ht.deck.software.deceive:run() then
+                system.startTurn()
+            end
+        end
+        
+        if key == "1" then
+            if ht.deck.software.attack:run() then
+                system.startTurn()
+            end
+        end
     end
 end
 
@@ -281,13 +305,50 @@ function system.isWaiting()
     end
 end
 
+function system.addWait(time)
+    system.timer = system.timer + time
+end
+
 function system.setAlert(level)
-    system.alert = level
+    level = level or nil
     
+    if level == nil then
+        if system.alert == "none" then
+            system.alert = "passive"
+        elseif system.alert == "passive" then
+            system.alert = "active"
+        end
+    else
+        system.alert = level
+    end
+    
+    system.doAlert()
+end
+
+function system.doAlert()
     if system.alert == "none" then
+        if ht.data.sounds.systemAlertLoop:isPlaying() then
+            ht.data.sounds.systemAlertStop:play()
+            ht.data.sounds.systemAlertLoop:stop()
+        end
     elseif system.alert == "passive" then
+        for i, node in ipairs(system.nodes) do
+            if node ~= system.getCurrentNode() then
+                for j, ICE in ipairs(node.ICE) do
+                    ICE.state = "idle"
+                end
+            end
+        end
     elseif system.alert == "active" then
-    elseif system.alert == "shutdown" then
+        if not ht.data.sounds.systemAlertLoop:isPlaying() then
+            ht.data.sounds.systemAlertLoop:play()
+        end
+        
+        for i, node in ipairs(system.nodes) do
+            for j, ICE in ipairs(node.ICE) do
+                ICE.state = "attack"
+            end
+        end
     end
 end
 
@@ -309,12 +370,22 @@ function system._doTurn()
         - Player action
     --]]
     
+    local node = system.getCurrentNode()
+    
     system.turn = system.turn + 1
     
-    system.timer = 1
-    
+    system.timer = 0.5
     while system.timer > 0 do
         coroutine.yield()
+    end
+    
+    for i, ICE in ipairs(node.ICE) do
+        ICE:turn()
+        
+        system.timer = system.timer + 0.5
+        while system.timer > 0 do
+            coroutine.yield()
+        end
     end
 end
 
@@ -334,22 +405,40 @@ function system.move()
 end
 
 function system.waitTurn()
+    gui.log.add("You waited", "info")
+    
     system.startTurn()
 end
 
 function system.connect()
     system.connected = true
+    
     system.nodes[1]:center()
+    
     gui.target.visible = true
+    
+    gui.log.add("You connected to the system", "info")
     ht.data.sounds.systemConnect:play()
+    
+    system.doAlert()
 end
 
 function system.disconnect()
     system.connected = false
+    
     system.currentNode = 1
     system.turn = 1
+    system.target = nil
+    
     gui.target.visible = false
+    
+    gui.log.add("You disconnected from the system", "info")
     ht.data.sounds.systemDisconnect:play()
+    
+    if ht.data.sounds.systemAlertLoop:isPlaying() then
+        ht.data.sounds.systemAlertStop:play()
+        ht.data.sounds.systemAlertLoop:stop()
+    end
 end
 
 function system.clear()

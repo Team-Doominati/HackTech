@@ -41,13 +41,19 @@ function system.createIOP(IOP)
     end
 end
 
+function system.createSM(SM)
+    if ht.system.alert ~= "none" and imgui.Button("Lower Alert Status") then
+        SM:activate()
+    end
+end
+
 function system.update()
     local status
     
     if not system.visible then return end
     
     imgui.SetNextWindowPos(500, 500, { "FirstUseEver" })
-    imgui.SetNextWindowSize(300, 300)
+    imgui.SetNextWindowSize(360, 300)
     
     status, system.visible = imgui.Begin("System", true, { "NoResize" })
     
@@ -64,7 +70,8 @@ function system.update()
                     end
                 elseif node.type == "IOP" and not node.activated and imgui.CollapsingHeader(node.name, { "DefaultOpen" }) then
                     system.createIOP(node)
-                elseif node.type == "SM" and not node.activated and imgui.CollapsingHeader(node.name, { "DefaultOpen" }) then
+                elseif node.type == "SM" and imgui.CollapsingHeader(node.name, { "DefaultOpen" }) then
+                    system.createSM(node)
                 elseif node.type == "CPU" and not node.activated and imgui.CollapsingHeader(node.name, { "DefaultOpen" }) then
                 end
             end

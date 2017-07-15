@@ -241,6 +241,10 @@ function data.loadSound(path, name)
     end
     
     data.sounds[name] = love.audio.newSource(path, type)
+    
+    if path:find("loop") ~= nil or path:find("Loop") ~= nil then
+        data.sounds[name]:setLooping(true)
+    end
 end
 
 return data

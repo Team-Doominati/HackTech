@@ -2,7 +2,7 @@ local deck =
 {
     integrity =
     {
-        current = 100,
+        current = 10,
         max = 100,
         armor = 0
     },
@@ -116,6 +116,18 @@ function deck.load(type)
         ht.data.sounds.softwareLoad:play()
     else
         ht.data.sounds.softwareFail:play()
+    end
+end
+
+function deck.damage(amount)
+    deck.integrity.current = deck.integrity.current - amount
+    
+    if deck.integrity.current <= 0 then
+        gui.log.add("You have been dumped from the system", "red")
+        
+        ht.system.disconnect()
+        
+        deck.integrity.current = deck.integrity.max
     end
 end
 

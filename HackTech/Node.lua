@@ -2,16 +2,21 @@ Node = class("Node")
 
 function Node:initialize()
     self.id = 0
+    
     self.x = 0
     self.y = 0
+    
     self.name = ""
     self.type = "none"
     self.security = "none"
+    
     self.ICE = {}
     self.files = {}
+    
     self.cleared = false
     self.activated = false
     self.objective = false
+    
     self.prev = nil
     self.next = nil
 end
@@ -93,11 +98,21 @@ function Node:draw()
 end
 
 function Node:update()
+    local clear = 0
+    
     for i, ICE in ipairs(self.ICE) do
         ICE:update()
+        
+        if ICE:isClear() then
+            clear = clear + 1
+        end
+        
+        if ICE.integrity <= 0 then
+            table.remove(self.ICE, i)
+        end
     end
     
-    if #self.ICE == 0 then -- Temporary check, later it should iterate ICE and check if they are clear as well
+    if not self.cleared and clear >= #self.ICE then
         self.cleared = true
     end
 end
@@ -116,7 +131,21 @@ function Node:center()
 end
 
 function Node:activate()
-    self.activated = true
+    if self.type == "IOP" then
+        self.activated = true
+    elseif self.type == "SM" then
+        if ht.system.alert == "shutdown" then
+            ht.system.setAlert("active")
+        elseif ht.system.alert == "active" then
+            ht.system.setAlert("passive")
+        elseif ht.system.alert == "passive" then
+            ht.system.setAlert("none")
+        end
+    end
+    
+    ht.system.startTurn()
+    
+    ht.data.sounds.nodeActivate:play()
 end
 
 function Node:generateICE()
