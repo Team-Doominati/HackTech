@@ -131,10 +131,11 @@ function deck.createHardware()
     if imgui.CollapsingHeader("Hardware", { "DefaultOpen" }) then
         imgui.Indent()
         
-        for i, type in pairs(hardware) do
+        for i, type in ipairs(hardware) do
             if imgui.CollapsingHeader(type[1] .. " (" .. #ht.deck.hardware[type[2]] .. "/" .. ht.deck.slots[type[2]] .. ")", { "DefaultOpen" }) then
                 for j = 1, ht.deck.slots[type[2]] do
                     local slot = ht.deck.hardware[type[2]][j]
+                    local level = ht.data.hardware[type[2]][slot]
                     
                     if slot == nil then
                         imgui.Image(ht.data.images.placeholder, 32, 32)
@@ -146,7 +147,7 @@ function deck.createHardware()
                         imgui.Image(ht.data.images.placeholder, 32, 32)
                         imgui.SetWindowFontScale(2.5)
                         imgui.SameLine()
-                        imgui.Text(slot .. type[3])
+                        imgui.Text(level .. type[3])
                         imgui.SetWindowFontScale(1)
                     end
                 end

@@ -43,9 +43,9 @@ local deck =
     hardware =
     {
         CPU = { 1 },
-        SPU = { 4 },
-        RAM = { 4 },
-        storage = { 8 },
+        SPU = { 1 },
+        RAM = { 1 },
+        storage = { 1 },
         network = { 1 },
         expansion = {}
     },
