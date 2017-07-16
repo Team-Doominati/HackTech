@@ -152,7 +152,6 @@ function ICE:turn()
         end
     elseif self.state == "spot" then
         if math.random(1, 2) == 1 then
-            ht.system.addWait(0.5)
             ht.system.setAlert()
             
             if ht.system.alert == "passive" then
