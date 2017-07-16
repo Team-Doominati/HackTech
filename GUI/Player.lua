@@ -64,12 +64,12 @@ function player.createHealth()
         drawMentalEKG()
         drawPhysicalEKG()
         
-        imgui.Image(ht.data.images.heartGreen, 32, 32)
+        imgui.Image(ht.data.images.healthMental, 32, 32)
         imgui.SameLine()
         imgui.Text("Mental Health\n" .. ht.player.health.mental .. " / " .. ht.player.health.mentalMax .. " (" .. math.ceil(dgl.math.percent(ht.player.health.mental, ht.player.health.mentalMax)) .. "%%)")
         imgui.Image(player.mentalHealthCanvas, player.mentalHealthCanvas:getWidth(), player.mentalHealthCanvas:getHeight())
         
-        imgui.Image(ht.data.images.heartRed, 32, 32)
+        imgui.Image(ht.data.images.healthPhysical, 32, 32)
         imgui.SameLine()
         imgui.Text("Physical Health\n" .. ht.player.health.physical .. " / " .. ht.player.health.physicalMax .. " (" .. math.ceil(dgl.math.percent(ht.player.health.physical, ht.player.health.physicalMax)) .. "%%)")
         imgui.Image(player.physicalHealthCanvas, player.physicalHealthCanvas:getWidth(), player.physicalHealthCanvas:getHeight())
@@ -98,7 +98,7 @@ function player.createStats()
         for i, stat in pairs(stats) do
             local type = string.lower(stat)
             
-            imgui.Image(ht.data.images.placeholder, 32, 32)
+            imgui.Image(ht.data.images["stat" .. stats[i]], 32, 32)
             imgui.SameLine()
             imgui.AlignFirstTextHeightToWidgets()
             imgui.Text(stat .. ": " .. ht.player.stats[type])
