@@ -5,6 +5,7 @@ local system =
 
 function system.createCurrentMission()
     local string = ""
+    local indent = 39
     
     imgui.Image(ht.data.images.placeholder, 32, 32)
     imgui.SameLine()
@@ -18,7 +19,7 @@ function system.createCurrentMission()
     
     imgui.Text(string)
     
-    imgui.Indent(39)
+    imgui.Indent(indent)
     
     if ht.system.connected then
         if imgui.Button("Disconnect") then
@@ -36,7 +37,38 @@ function system.createCurrentMission()
         Mission.abandon()
     end
     
-    imgui.Unindent()
+    imgui.Unindent(indent)
+end
+
+function system.createTarget()
+    local ICE = ht.system.target
+    local string = ""
+    
+    imgui.Image(ICE.image, ICE.image:getWidth(), ICE.image:getHeight())
+    
+    string = string .. ICE.name .. "\n"
+    
+    if ICE.analyzed then
+        string = string .. "Level: " .. ICE.level .. "\n"
+        string = string .. "Integrity: " .. ICE.integrity .. "\n"
+        string = string .. "Shield: " .. ICE.shield .. "\n"
+        if ICE.state == "idle" or ICE.state == "spot" then
+            string = string .. "Spot Chance: " .. ICE.stats.spot .. "%%\n"
+            string = string .. "Deceive Chance: " .. ICE.stats.deceive .. "%%\n"
+        elseif ICE.state == "attack" then
+            
+        end
+    else
+        string = string .. "<DATA UNKNOWN>" .. "\n"
+        string = string .. "Analyze Chance: " .. ICE.stats.analyze .. "%%\n"
+    end
+    
+    if ICE:isClear() then
+        string = string .. "<CLEAR>\n"
+    end
+    
+    imgui.SameLine()
+    imgui.Text(string)
 end
 
 function system.createFile(file)
@@ -72,6 +104,10 @@ function system.update()
     end
     
     if ht.system.connected then
+        if imgui.CollapsingHeader("Target", { "DefaultOpen" }) and ht.system.target ~= nil then
+            system.createTarget()
+        end
+        
         for i, node in ipairs(ht.system.nodes) do
             if node.cleared then
                 if node.type == "DS" and imgui.CollapsingHeader(node.name, { "DefaultOpen" }) then

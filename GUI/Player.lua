@@ -24,7 +24,9 @@ function player.createHealth()
         end
         
         for x = 1, love.graphics.getCanvas():getWidth() do
-            love.graphics.points(x, 15 + math.sin(x / 10 + (timer * (20 - (percent * 0.16)))) * 15)
+            local s = function(n) return math.sin(n / 10 + (timer * (20 - (percent * 0.16)))) end
+            
+            love.graphics.line(x, 15 + s(x) * 15, x + 2, 15 + s(x + 2) * 15)
         end
         
         love.graphics.setColor(unpack(dgl.color.white))

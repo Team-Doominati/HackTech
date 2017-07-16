@@ -38,7 +38,6 @@ function love.draw()
     gui.deck.update()
     gui.mission.update()
     gui.system.update()
-    gui.target.update()
     gui.log.update()
     
     cam:attach()
@@ -81,15 +80,11 @@ function love.keypressed(key, isRepeat)
         gui.toggle(gui.system)
     end
     
-    if key == "f5" and ht.system.connected then
-        gui.toggle(gui.target)
-    end
-    
-    if key == "f6" then
+    if key == "f5" then
         gui.toggle(gui.log)
     end
     
-    if key == "f7" then
+    if key == "f8" then
         dgl.music.playRandomSong("Data/Music")
     end
     

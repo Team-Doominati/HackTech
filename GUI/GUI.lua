@@ -4,7 +4,6 @@ gui.player =  require "GUI/Player"
 gui.deck =    require "GUI/Deck"
 gui.mission = require "GUI/Mission"
 gui.system =  require "GUI/System"
-gui.target =  require "GUI/Target"
 gui.log =     require "GUI/Log"
 
 function gui.toggle(type)

@@ -415,8 +415,6 @@ function system.connect()
     
     system.nodes[1]:center()
     
-    gui.target.visible = true
-    
     gui.log.add("You connected to the system", "info")
     ht.data.sounds.systemConnect:play()
     
@@ -429,8 +427,6 @@ function system.disconnect()
     system.currentNode = 1
     system.turn = 1
     system.target = nil
-    
-    gui.target.visible = false
     
     gui.log.add("You disconnected from the system", "info")
     ht.data.sounds.systemDisconnect:play()
