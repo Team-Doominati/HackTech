@@ -147,9 +147,12 @@ function ICE:turn()
             self.state = "spot"
             gui.log.add("ICE " .. self.name .. " is querying you", "warning")
             ht.data.sounds.ICESpotCheck:play()
+            
+            ht.system.addWait(0.5)
         end
     elseif self.state == "spot" then
         if math.random(1, 2) == 1 then
+            ht.system.addWait(0.5)
             ht.system.setAlert()
             
             if ht.system.alert == "passive" then
@@ -160,6 +163,8 @@ function ICE:turn()
                 ht.data.sounds.ICEAlert:play()
                 self.state = "attack"
             end
+            
+            ht.system.addWait(0.5)
         end
     elseif self.state == "attack" then
         local damage = self.level * 5 - ht.deck.integrity.armor
@@ -172,6 +177,8 @@ function ICE:turn()
         if not ht.system.alert == "active" then
             ht.system.setAlert("active")
         end
+        
+        ht.system.addWait(0.5)
     end
 end
 

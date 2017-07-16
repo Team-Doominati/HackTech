@@ -360,7 +360,7 @@ end
 
 function system._doTurn()
     --[[
-          TODO: Turn order logic
+          Turn order logic
         - Turn increment
         - Node/ICE-affecting program expiration check (silence, virus, etc)
         - Player program run/continue (scan, crackers, etc)
@@ -374,15 +374,16 @@ function system._doTurn()
     
     system.turn = system.turn + 1
     
+    --[[ Unnecessary
     system.timer = 0.5
     while system.timer > 0 do
         coroutine.yield()
     end
+    --]]
     
     for i, ICE in ipairs(node.ICE) do
         ICE:turn()
         
-        system.timer = system.timer + 0.5
         while system.timer > 0 do
             coroutine.yield()
         end
